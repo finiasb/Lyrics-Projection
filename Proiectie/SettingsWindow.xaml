@@ -20,10 +20,13 @@
         <Grid Margin="5,5,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="txtImagePath" IsReadOnly="True" Background="#333" Foreground="White" VerticalContentAlignment="Center" Padding="5"/>
-            <Button Grid.Column="1" Content="Cauta..." Click="SelectImage_Click" Width="80" Margin="5,0,0,0" Background="#007ACC" Foreground="White"/>
+            <TextBox x:Name="txtImagePath" IsReadOnly="True" Background="#333" Foreground="White" VerticalContentAlignment="Center" Padding="8,5" BorderBrush="#555"/>
+            <Button Grid.Column="1" Content="Caută..." Click="SelectImage_Click" Width="80" Height="30" Margin="10,0,0,0" Background="#007ACC" Foreground="White" Cursor="Hand"/>
+
+            <Button Grid.Column="2" Content="Șterge" Click="ClearImage_Click" Width="80" Height="30" Margin="10,0,0,0" Background="#C0392B" Foreground="White" Cursor="Hand"/>
         </Grid>
 
         <Button Content="SALVEAZĂ" Click="Save_Click" Height="35" Background="#28A745" Foreground="White" Margin="5,20,0,0"/>

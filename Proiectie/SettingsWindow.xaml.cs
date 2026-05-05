@@ -63,5 +63,10 @@ namespace Proiectie
                 txtImagePath.Text = openFileDialog.FileName;
             }
         }
+
+        private void ClearImage_Click(Object sender, RoutedEventArgs e)
+        {
+            txtImagePath.Text = string.Empty;
+        }
     }
 }
