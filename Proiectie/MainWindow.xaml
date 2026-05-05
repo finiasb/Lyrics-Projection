@@ -111,9 +111,14 @@
                 <!-- SECȚIUNEA LIVE -->
                 <StackPanel Grid.Row="0">
                     <Label Content="LIVE PE ECRAN" Foreground="#FF4500" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <Border Background="Black" Height="150" CornerRadius="5" BorderBrush="#555" BorderThickness="1">
-                        <TextBlock x:Name="txtLivePreview" Text="-" Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                    <Border Height="150" CornerRadius="5" BorderBrush="#555" BorderThickness="1" ClipToBounds="True">
+                        <Grid Background="Black">
+                            <Image x:Name="imgPreviewBackground" Stretch="UniformToFill" />
+                            <Border Background="Black" Opacity="0.3" />
+                            <TextBlock x:Name="txtLivePreview" Text="-" Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Bold"/>
+                        </Grid>
                     </Border>
+
                     <Button x:Name="btnToggleProjection" Content="DESCHIDE PROIECȚIA" Margin="0,10,0,5" Height="35" Background="#28A745" Foreground="White" Click="btnToggleProjection_Click"/>
                     <Button Content="ASCUNDE TEXTUL" Height="35" Background="#C0392B" Foreground="White" Click="Blackout_Click" Margin="0,0,0,20"/>
                 </StackPanel>

@@ -6,6 +6,8 @@
         WindowStyle="None" 
         WindowStartupLocation="Manual">
     <Grid>
+        <Image x:Name="imgBackground" Stretch="UniformToFill" />
+
         <TextBlock x:Name="txtMain" Foreground="White" FontSize="60" FontWeight="Bold" 
                    TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" 
                    TextWrapping="Wrap" Margin="50"/>

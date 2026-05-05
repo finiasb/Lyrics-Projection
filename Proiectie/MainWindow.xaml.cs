@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging; 
 namespace Proiectie
 {
     public partial class MainWindow : Window
@@ -12,6 +13,8 @@ namespace Proiectie
         public MainWindow()
         {
             InitializeComponent();
+
+            UpdatePreviewBackground();
 
             if (Properties.Settings.Default.SavedMonitors != null)
             {
@@ -60,6 +63,9 @@ namespace Proiectie
                         window.Show();
                         window.WindowState = WindowState.Maximized;
                         _projectionWindows.Add(window);
+
+                        window.UpdateBackground();
+                        window.SetText(txtLivePreview.Text);
                     }
                 }
 
@@ -119,10 +125,12 @@ namespace Proiectie
                 }
             }
         }
-
         private void Blackout_Click(object sender, RoutedEventArgs e)
         {
-            _projectionWindow?.SetText("");
+            foreach (var window in _projectionWindows)
+            {
+                window.SetText("");
+            }
             txtLivePreview.Text = "- MUTE -";
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -145,8 +153,16 @@ namespace Proiectie
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settings = new SettingsWindow();
-            settings.Owner = this; 
-            settings.ShowDialog(); 
+            settings.Owner = this;
+            if (settings.ShowDialog() == true || settings.IsActive == false)
+            {
+                UpdatePreviewBackground();
+
+                foreach (var window in _projectionWindows)
+                {
+                    window.UpdateBackground();
+                }
+            }
         }
         private void TxtSearch_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -162,6 +178,32 @@ namespace Proiectie
                     }
                     e.Handled = true;
                 }
+            }
+        }
+        public void UpdatePreviewBackground()
+        {
+            string path = Properties.Settings.Default.BackgroundImagePath;
+
+            if (!string.IsNullOrEmpty(path) && System.IO.File.Exists(path))
+            {
+                try
+                {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(path);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+
+                    imgPreviewBackground.Source = bitmap;
+                }
+                catch
+                {
+                    imgPreviewBackground.Source = null;
+                }
+            }
+            else
+            {
+                imgPreviewBackground.Source = null;
             }
         }
     }
