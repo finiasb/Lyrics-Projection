@@ -178,5 +178,9 @@ namespace Proiectie
                 }
             }
         }
+        private void AddSong_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

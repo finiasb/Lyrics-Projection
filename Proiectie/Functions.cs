@@ -32,9 +32,17 @@ namespace Proiectie
                 string filtruCurat = NormalizeazaText(filtru);
                 string filtruSql = "%" + filtruCurat.Replace(" ", "%") + "%";
 
-                string coloanaCautare = window.rbContinut.IsChecked == true ? "versuri" : "titlu";
+                string sqlQuery;
 
-                SqliteCommand command = new SqliteCommand($"SELECT id, titlu, versuri FROM Cantece WHERE REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LOWER({coloanaCautare}), '-', ' '), ',', ' '), 'ă', 'a'), 'ţ', 't'), 'ş', 's'), 'â', 'a'), 'î', 'i'), 'ș', 's'), 'ț', 't') LIKE @filtru LIMIT 46", connection);
+                if (window.rbContinut.IsChecked == true)
+                {
+                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("versuri")} LIKE @filtru LIMIT 46";
+                }
+                else
+                {
+                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("titlu")} LIKE @filtru OR {CreateSqlFiltre("SUBSTR(versuri, 1, 60)")} LIKE @filtru LIMIT 46";
+                }
+                SqliteCommand command = new SqliteCommand(sqlQuery, connection);
                 command.Parameters.AddWithValue("@filtru", filtruSql);
 
                 List<Song> lista = new List<Song>();
@@ -53,6 +61,11 @@ namespace Proiectie
                 }
                 window.lstCantari.ItemsSource = lista;
             }
+        }
+
+        private static string CreateSqlFiltre(string column)
+        {
+            return $"REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LOWER({column}), '-', ' '), ',', ' '), 'ă', 'a'), 'ţ', 't'), 'ş', 's'), 'â', 'a'), 'î', 'i'), 'ș', 's'), 'ț', 't')";
         }
         public static void IncarcaDetaliiCantare(MainWindow window, Song selectata)
         {
