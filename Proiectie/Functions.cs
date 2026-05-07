@@ -67,10 +67,10 @@ namespace Proiectie
         {
             return $"REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LOWER({column}), '-', ' '), ',', ' '), 'ă', 'a'), 'ţ', 't'), 'ş', 's'), 'â', 'a'), 'î', 'i'), 'ș', 's'), 'ț', 't')";
         }
-        public static void IncarcaDetaliiCantare(MainWindow window, Song selectata)
+        public static void LoadSonDetails(MainWindow window, Song selected)
         {
-            window.lblSelectedTitle.Text = selectata.Title;
-            var strofe = Regex.Split(selectata.Verses, @"(?=\d+\.)|(?:\r?\n){2,}")
+            window.lblSelectedTitle.Text = selected.Title;
+            var strofe = Regex.Split(selected.Verses, @"(?=\d+\.)|(?:\r?\n){2,}")
                               .Select(s => s.Trim())
                               .Where(s => !string.IsNullOrWhiteSpace(s))
                               .Where(s => !s.StartsWith("I:"))

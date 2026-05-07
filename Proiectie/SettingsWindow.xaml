@@ -29,6 +29,63 @@
             <Button Grid.Column="2" Content="Șterge" Click="ClearImage_Click" Width="80" Height="30" Margin="10,0,0,0" Background="#C0392B" Foreground="White" Cursor="Hand"/>
         </Grid>
 
+        <Separator Background="#333" Margin="0,15"/>
+        <TextBlock Text="SETĂRI TEXT" Foreground="#007ACC" FontWeight="Bold" Margin="5,0,0,10"/>
+
+        <Grid Margin="5,0,5,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Coloana 1: Font -->
+            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                <Label Content="Font:" Foreground="Gray" Padding="0,0,0,5"/>
+                <ComboBox x:Name="cmbFonts" Height="30" DisplayMemberPath="Source"/>
+            </StackPanel>
+
+            <!-- Coloana 2: Mărime -->
+            <!-- Coloana 2: Mărime (SIMPLU) -->
+            <!-- Coloana 2: Mărime (Butoane + / -) -->
+            <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                <Label Content="Mărime:" Foreground="Gray" Padding="0,0,0,5"/>
+                <Grid Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Buton Scădere -->
+                    <Button Content="-" Click="DecreaseFont_Click" Width="25" Background="#444" Foreground="White" BorderBrush="#555"/>
+
+                    <!-- Afișaj Valoare -->
+                    <TextBox x:Name="txtFontSize" Grid.Column="1" Text="60" IsReadOnly="True" 
+                 Background="#333" Foreground="White" BorderBrush="#555"
+                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+
+                    <!-- Buton Creștere -->
+                    <Button Grid.Column="2" Content="+" Click="IncreaseFont_Click" Width="25" Background="#444" Foreground="White" BorderBrush="#555"/>
+                </Grid>
+            </StackPanel>
+
+            <!-- Coloana 3: Culoare -->
+            <StackPanel Grid.Column="2">
+                <Label Content="Culoare (Hex):" Foreground="Gray" Padding="0,0,0,5"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtFontColor" Background="#333" Foreground="White" Height="30" 
+                     VerticalContentAlignment="Center" BorderThickness="1,1,0,1" BorderBrush="#555" Padding="5"/>
+                    <Border Grid.Column="1" Background="{Binding ElementName=txtFontColor, Path=Text}" 
+                    BorderBrush="#555" BorderThickness="0,1,1,1" Height="30" CornerRadius="0,2,2,0"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
         <Button Content="SALVEAZĂ" Click="Save_Click" Height="35" Background="#28A745" Foreground="White" Margin="5,20,0,0"/>
     </StackPanel>
 </Window>   

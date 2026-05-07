@@ -13,7 +13,6 @@ namespace Proiectie
 
             txtImagePath.Text = Properties.Settings.Default.BackgroundImagePath;
         }
-
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             var selected = (List<MonitorOption>)MonitorsList.ItemsSource;
@@ -48,6 +47,23 @@ namespace Proiectie
         private void ClearImage_Click(Object sender, RoutedEventArgs e)
         {
             txtImagePath.Text = string.Empty;
+        }
+        private void DecreaseFont_Click(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(txtFontSize.Text, out double currentSize))
+            {
+                if (currentSize > 10) 
+                    txtFontSize.Text = (currentSize - 2).ToString();
+            }
+        }
+
+        private void IncreaseFont_Click(object sender, RoutedEventArgs e)
+        {
+            if (double.TryParse(txtFontSize.Text, out double currentSize))
+            {
+                if (currentSize < 300) 
+                    txtFontSize.Text = (currentSize + 2).ToString();
+            }
         }
     }
 }

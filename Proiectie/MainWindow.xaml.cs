@@ -91,9 +91,9 @@ namespace Proiectie
         }
         private void BtnStergeFavorite_Click(object sender, RoutedEventArgs e)
         {
-            if (lstFavorite.SelectedItem is Song selectata)
+            if (lstFavorite.SelectedItem is Song selected)
             {
-                _listaFavorite.Remove(selectata);
+                _listaFavorite.Remove(selected);
                 lstFavorite.ItemsSource = null;
                 lstFavorite.ItemsSource = _listaFavorite;
             }
@@ -101,8 +101,8 @@ namespace Proiectie
 
         private void lstCantari_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lstCantari.SelectedItem is Song selectata)
-                Functions.IncarcaDetaliiCantare(this, selectata);
+            if (lstCantari.SelectedItem is Song selected)
+                Functions.LoadSonDetails(this, selected);
         }
 
         private void Strofa_Click(object sender, RoutedEventArgs e)
@@ -146,7 +146,7 @@ namespace Proiectie
         private void lstFavorite_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lstFavorite.SelectedItem is Song selectata)
-                Functions.IncarcaDetaliiCantare(this, selectata);
+                Functions.LoadSonDetails(this, selectata);
         }
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
@@ -172,7 +172,7 @@ namespace Proiectie
                     lstCantari.SelectedIndex = 0;
                     if (lstCantari.SelectedItem is Song selectata)
                     {
-                        Functions.IncarcaDetaliiCantare(this, selectata);
+                        Functions.LoadSonDetails(this, selectata);
                     }
                     e.Handled = true;
                 }
