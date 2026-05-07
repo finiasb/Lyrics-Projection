@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Text.RegularExpressions;
+using System.Windows.Media.Imaging;
 
 namespace Proiectie
 {
@@ -64,6 +65,51 @@ namespace Proiectie
                               .ToList();
             window.itemsStrofe.ItemsSource = strofe;
         }
+        public static void LoadMonitors(SettingsWindow window)
+        {
+            var screens = System.Windows.Forms.Screen.AllScreens;
+            var options = new List<MonitorOption>();
 
+            var savedIds = Properties.Settings.Default.SavedMonitors ?? new System.Collections.Specialized.StringCollection();
+            foreach (var s in screens)
+            {
+                options.Add(new MonitorOption
+                {
+                    DeviceName = $"Monitor {(s.Primary ? "(Principal) " : "")}- {s.Bounds.Width}x{s.Bounds.Height}",
+                    ScreenId = s.DeviceName,
+                    IsSelected = savedIds.Contains(s.DeviceName)
+                });
+            }
+
+            window.MonitorsList.ItemsSource = options;
+        }
+        public static void UpdateBackground(System.Windows.Controls.Image controlImagine)
+        {
+            if (controlImagine == null) return;
+
+            string path = Properties.Settings.Default.BackgroundImagePath;
+
+            if (!string.IsNullOrEmpty(path) && System.IO.File.Exists(path))
+            {
+                try
+                {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(path);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+
+                    controlImagine.Source = bitmap;
+                }
+                catch
+                {
+                    controlImagine.Source = null;
+                }
+            }
+            else
+            {
+                controlImagine.Source = null;
+            }
+        }
     }
 }

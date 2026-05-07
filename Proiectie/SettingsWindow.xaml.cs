@@ -9,28 +9,9 @@ namespace Proiectie
         public SettingsWindow()
         {
             InitializeComponent();
-            LoadMonitors();
+            Functions.LoadMonitors(this);
 
             txtImagePath.Text = Properties.Settings.Default.BackgroundImagePath;
-        }
-
-        private void LoadMonitors()
-        {
-            var screens = System.Windows.Forms.Screen.AllScreens;
-            var options = new List<MonitorOption>();
-
-            var savedIds = Properties.Settings.Default.SavedMonitors ?? new System.Collections.Specialized.StringCollection();
-            foreach (var s in screens)
-            {
-                options.Add(new MonitorOption
-                {
-                    DeviceName = $"Monitor {(s.Primary ? "(Principal) " : "")}- {s.Bounds.Width}x{s.Bounds.Height}",
-                    ScreenId = s.DeviceName,
-                    IsSelected = savedIds.Contains(s.DeviceName)
-                });
-            }
-
-            MonitorsList.ItemsSource = options;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

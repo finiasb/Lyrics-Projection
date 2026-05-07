@@ -365,7 +365,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Users\\Fineas\\source\\repos\\Nationala2025\\Nationala2025\\bin\\Debug\\packages": {}
       },
       "frameworks": {
         "net8.0-windows7.0": {

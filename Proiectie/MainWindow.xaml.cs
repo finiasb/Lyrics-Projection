@@ -14,7 +14,7 @@ namespace Proiectie
         {
             InitializeComponent();
 
-            UpdatePreviewBackground();
+            Functions.UpdateBackground(this.imgPreviewBackground);
 
             if (Properties.Settings.Default.SavedMonitors != null)
             {
@@ -43,14 +43,11 @@ namespace Proiectie
             if (_projectionWindows.Count == 0)
             {
                 var screens = System.Windows.Forms.Screen.AllScreens;
-
                 var targetIds = SettingsWindow.SelectedMonitorIds;
 
                 foreach (var screen in screens)
                 {
-                    bool shouldProject = targetIds.Count > 0
-                        ? targetIds.Contains(screen.DeviceName)
-                        : !screen.Primary; 
+                    bool shouldProject = targetIds.Count > 0 ? targetIds.Contains(screen.DeviceName): !screen.Primary; 
 
                     if (shouldProject)
                     {
@@ -64,8 +61,9 @@ namespace Proiectie
                         window.WindowState = WindowState.Maximized;
                         _projectionWindows.Add(window);
 
-                        window.UpdateBackground();
-                        window.SetText(txtLivePreview.Text);
+                        Functions.UpdateBackground(window.imgBackground);
+                        if(txtLivePreview.Text != "- MUTE -" && txtLivePreview.Text != "PROIECȚIE ACTIVĂ" && txtLivePreview.Text != "PROIECȚIE OPRITĂ" && txtLivePreview.Text != "-")
+                            window.SetText(txtLivePreview.Text);
                     }
                 }
 
@@ -73,14 +71,14 @@ namespace Proiectie
                 {
                     btnToggleProjection.Content = "OPREȘTE PROIECȚIA";
                     btnToggleProjection.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C0392B"));
-                    txtLivePreview.Text = "PROIECȚIE ACTIVĂ";
+                    if(txtLivePreview.Text == "-")
+                        txtLivePreview.Text = "PROIECȚIE ACTIVĂ";
                 }
             }
             else
             {
                 _projectionWindows.ForEach(w => w.Close());
                 _projectionWindows.Clear();
-
 
                 btnToggleProjection.Content = "DESCHIDE PROIECȚIA";
                 btnToggleProjection.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#28A745"));
@@ -156,11 +154,11 @@ namespace Proiectie
             settings.Owner = this;
             if (settings.ShowDialog() == true || settings.IsActive == false)
             {
-                UpdatePreviewBackground();
+                Functions.UpdateBackground(this.imgPreviewBackground);
 
                 foreach (var window in _projectionWindows)
                 {
-                    window.UpdateBackground();
+                    Functions.UpdateBackground(window.imgBackground);
                 }
             }
         }
@@ -178,32 +176,6 @@ namespace Proiectie
                     }
                     e.Handled = true;
                 }
-            }
-        }
-        public void UpdatePreviewBackground()
-        {
-            string path = Properties.Settings.Default.BackgroundImagePath;
-
-            if (!string.IsNullOrEmpty(path) && System.IO.File.Exists(path))
-            {
-                try
-                {
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(path);
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.EndInit();
-
-                    imgPreviewBackground.Source = bitmap;
-                }
-                catch
-                {
-                    imgPreviewBackground.Source = null;
-                }
-            }
-            else
-            {
-                imgPreviewBackground.Source = null;
             }
         }
     }
