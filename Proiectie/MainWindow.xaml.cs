@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging; 
@@ -6,10 +7,11 @@ namespace Proiectie
 {
     public partial class MainWindow : Window
     {
-        private ProjectionWindow _projectionWindow;
-        private List<Song> _listaFavorite = new List<Song>();
+        private ProjectionWindow _projectionWindow; 
+        private ObservableCollection<Song> _listaFavorite = new ObservableCollection<Song>();
+        private ObservableCollection<Song> _listaIstoric = new ObservableCollection<Song>();
         private List<ProjectionWindow> _projectionWindows = new List<ProjectionWindow>();
-
+        Song lastSongSelected;
         public string _connectionString = $"Data Source={System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cantece.db")}";
         public MainWindow()
         {
@@ -22,7 +24,7 @@ namespace Proiectie
                 SettingsWindow.SelectedMonitorIds = Properties.Settings.Default.SavedMonitors.Cast<string>().ToList();
             }
 
-            Functions.IncarcaCantari(this);
+            Functions.LoadSongs(this);
             txtSearch.TextChanged += TxtSearch_TextChanged;
             txtSearch.KeyDown += TxtSearch_KeyDown;
 
@@ -37,7 +39,23 @@ namespace Proiectie
         private void SearchType_Changed(object sender, RoutedEventArgs e)
         {
             if (txtSearch != null)
-                Functions.IncarcaCantari(this, txtSearch.Text);
+                Functions.LoadSongs(this, txtSearch.Text);
+        }
+
+        private void ListType_Changed(object sender, RoutedEventArgs e)
+        {
+            if (BtnDeleteFromList == null || lstFavOrIstoric == null) return;
+
+            if (rbFavorite.IsChecked == true)
+            {
+                BtnDeleteFromList.Content = "Șterge din favorite";
+                lstFavOrIstoric.ItemsSource = _listaFavorite;
+            }
+            else
+            {
+                BtnDeleteFromList.Content = "Șterge din istoric";
+                lstFavOrIstoric.ItemsSource = _listaIstoric;
+            }
         }
         private void btnToggleProjection_Click(object sender, RoutedEventArgs e)
         {
@@ -89,22 +107,37 @@ namespace Proiectie
         }
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Functions.IncarcaCantari(this, txtSearch.Text);
+            Functions.LoadSongs(this, txtSearch.Text);
         }
-        private void BtnStergeFavorite_Click(object sender, RoutedEventArgs e)
+        private void BtnStergeLista_Click(object sender, RoutedEventArgs e)
         {
-            if (lstFavorite.SelectedItem is Song selected)
+            if(BtnDeleteFromList.Content == "Șterge din favorite")
             {
-                _listaFavorite.Remove(selected);
-                lstFavorite.ItemsSource = null;
-                lstFavorite.ItemsSource = _listaFavorite;
+                if (lstFavOrIstoric.SelectedItem is Song selected)
+                {
+                    _listaFavorite.Remove(selected);
+                    lstFavOrIstoric.ItemsSource = null;
+                    lstFavOrIstoric.ItemsSource = _listaFavorite;
+                }
+            }
+            else
+            {
+                if (lstFavOrIstoric.SelectedItem is Song selected)
+                {
+                    _listaIstoric.Remove(selected);
+                    lstFavOrIstoric.ItemsSource = null;
+                    lstFavOrIstoric.ItemsSource = _listaIstoric;
+                }
             }
         }
 
         private void lstCantari_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lstCantari.SelectedItem is Song selected)
-                Functions.LoadSonDetails(this, selected);
+            {
+                Functions.LoadSongDetails(this, selected);
+                lastSongSelected = selected;
+            }
         }
 
         private void Strofa_Click(object sender, RoutedEventArgs e)
@@ -115,6 +148,15 @@ namespace Proiectie
             {
                 string textStrofa = button.DataContext.ToString();
                 txtLiveTextPreview.Text = textStrofa;
+
+                if(_projectionWindows.Count >= 1)
+                {
+                    if (!_listaIstoric.Any(c => c.Id == lastSongSelected.Id))
+                    {
+                        _listaIstoric.Add(lastSongSelected);
+                    }
+                }
+
 
                 foreach (var window in _projectionWindows)
                 {
@@ -140,15 +182,13 @@ namespace Proiectie
                 if (!_listaFavorite.Any(c => c.Id == selectata.Id))
                 {
                     _listaFavorite.Add(selectata);
-                    lstFavorite.ItemsSource = null;
-                    lstFavorite.ItemsSource = _listaFavorite;
                 }
             }
         }
         private void lstFavorite_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lstFavorite.SelectedItem is Song selectata)
-                Functions.LoadSonDetails(this, selectata);
+            if (lstFavOrIstoric.SelectedItem is Song selectata)
+                Functions.LoadSongDetails(this, selectata);
         }
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
@@ -174,7 +214,7 @@ namespace Proiectie
                     lstCantari.SelectedIndex = 0;
                     if (lstCantari.SelectedItem is Song selectata)
                     {
-                        Functions.LoadSonDetails(this, selectata);
+                        Functions.LoadSongDetails(this, selectata);
                     }
                     e.Handled = true;
                 }
@@ -182,8 +222,9 @@ namespace Proiectie
         }
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if (e.Key == Key.F12)
             {
+                // i can do a cleaner function here
                 string clockTime;
                 if(txtLiveClockPreview.Text == "")
                     clockTime = Functions.SetClock(DateTime.Now.Hour.ToString(), DateTime.Now.Minute.ToString());

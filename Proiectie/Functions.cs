@@ -24,7 +24,7 @@ namespace Proiectie
             text = Regex.Replace(text, @"\s+", " ");
             return text.Trim();
         }
-        public static void IncarcaCantari(MainWindow window, string filtru = "")
+        public static void LoadSongs(MainWindow window, string filtru = "")
         {
             using (var connection = new SqliteConnection(window._connectionString))
             {
@@ -68,7 +68,7 @@ namespace Proiectie
         {
             return $"REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LOWER({column}), '-', ' '), ',', ' '), 'ă', 'a'), 'ţ', 't'), 'ş', 's'), 'â', 'a'), 'î', 'i'), 'ș', 's'), 'ț', 't')";
         }
-        public static void LoadSonDetails(MainWindow window, Song selected)
+        public static void LoadSongDetails(MainWindow window, Song selected)
         {
             window.lblSelectedTitle.Text = selected.Title;
             var strofe = Regex.Split(selected.Verses, @"(?=\d+\.)|(?:\r?\n){2,}")
