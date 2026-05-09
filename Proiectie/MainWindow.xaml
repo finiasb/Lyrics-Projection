@@ -12,6 +12,7 @@
         d:DesignHeight="1080" 
         d:DesignWidth="1920" 
         Background="#252525"
+        KeyDown="Window_KeyDown"
         Icon="app_icon.png">
     <Window.Resources>
         <Style TargetType="RadioButton">
@@ -118,7 +119,8 @@
                         <Grid Background="Black">
                             <Image x:Name="imgPreviewBackground" Stretch="UniformToFill" />
                             <Border Background="Black" Opacity="0.3" />
-                            <TextBlock x:Name="txtLivePreview" Text="-" Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtLiveTextPreview" Text="-" Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtLiveClockPreview" Text="" Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="5" FontWeight="Bold"/>
                         </Grid>
                     </Border>
 

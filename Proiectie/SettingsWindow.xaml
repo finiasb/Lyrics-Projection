@@ -45,9 +45,6 @@
                 <ComboBox x:Name="cmbFonts" Height="30" DisplayMemberPath="Source"/>
             </StackPanel>
 
-            <!-- Coloana 2: Mărime -->
-            <!-- Coloana 2: Mărime (SIMPLU) -->
-            <!-- Coloana 2: Mărime (Butoane + / -) -->
             <StackPanel Grid.Column="1" Margin="0,0,10,0">
                 <Label Content="Mărime:" Foreground="Gray" Padding="0,0,0,5"/>
                 <Grid Height="30">
@@ -57,15 +54,10 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Buton Scădere -->
                     <Button Content="-" Click="DecreaseFont_Click" Width="25" Background="#444" Foreground="White" BorderBrush="#555"/>
 
-                    <!-- Afișaj Valoare -->
-                    <TextBox x:Name="txtFontSize" Grid.Column="1" Text="60" IsReadOnly="True" 
-                 Background="#333" Foreground="White" BorderBrush="#555"
-                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+                    <TextBox x:Name="txtFontSize" Grid.Column="1" Text="60" IsReadOnly="True" Background="#333" Foreground="White" BorderBrush="#555" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold"/>
 
-                    <!-- Buton Creștere -->
                     <Button Grid.Column="2" Content="+" Click="IncreaseFont_Click" Width="25" Background="#444" Foreground="White" BorderBrush="#555"/>
                 </Grid>
             </StackPanel>

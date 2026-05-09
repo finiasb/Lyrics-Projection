@@ -24,10 +24,9 @@ namespace Proiectie
                 SelectedMonitorIds.Add(item.ScreenId);
             }
             Properties.Settings.Default.BackgroundImagePath = txtImagePath.Text;
-            Properties.Settings.Default.Save();
             Properties.Settings.Default.SavedMonitors = collection;
-            Properties.Settings.Default.Save();
 
+            Properties.Settings.Default.Save();
             this.Close();
         }
 

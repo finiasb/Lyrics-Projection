@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace Proiectie
@@ -123,6 +124,27 @@ namespace Proiectie
             {
                 controlImagine.Source = null;
             }
+        }
+        public static string SetClock(string hour, string minute)
+        {
+            string txtClock = "";
+            if (hour == "" && minute == "")
+                txtClock = "";
+            else
+            {
+                if (int.Parse(hour) <= 9)
+                    txtClock += $"0{hour}";
+                else
+                    txtClock += hour;
+
+                txtClock += ":";
+
+                if (int.Parse(minute) <= 9)
+                    txtClock += $"0{minute}";
+                else
+                    txtClock += minute;
+            }
+            return txtClock;
         }
     }
 }

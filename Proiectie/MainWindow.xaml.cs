@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging; 
 namespace Proiectie
 {
@@ -59,11 +60,12 @@ namespace Proiectie
 
                         window.Show();
                         window.WindowState = WindowState.Maximized;
+                        window.txtClock.Text = txtLiveClockPreview.Text;
                         _projectionWindows.Add(window);
 
                         Functions.UpdateBackground(window.imgBackground);
-                        if(txtLivePreview.Text != "- MUTE -" && txtLivePreview.Text != "PROIECȚIE ACTIVĂ" && txtLivePreview.Text != "PROIECȚIE OPRITĂ" && txtLivePreview.Text != "-")
-                            window.SetText(txtLivePreview.Text);
+                        if(txtLiveTextPreview.Text != "- MUTE -" && txtLiveTextPreview.Text != "PROIECȚIE ACTIVĂ" && txtLiveTextPreview.Text != "PROIECȚIE OPRITĂ" && txtLiveTextPreview.Text != "-")
+                            window.SetText(txtLiveTextPreview.Text);
                     }
                 }
 
@@ -71,8 +73,8 @@ namespace Proiectie
                 {
                     btnToggleProjection.Content = "OPREȘTE PROIECȚIA";
                     btnToggleProjection.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C0392B"));
-                    if(txtLivePreview.Text == "-")
-                        txtLivePreview.Text = "PROIECȚIE ACTIVĂ";
+                    if(txtLiveTextPreview.Text == "-")
+                        txtLiveTextPreview.Text = "PROIECȚIE ACTIVĂ";
                 }
             }
             else
@@ -82,7 +84,7 @@ namespace Proiectie
 
                 btnToggleProjection.Content = "DESCHIDE PROIECȚIA";
                 btnToggleProjection.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#28A745"));
-                txtLivePreview.Text = "PROIECȚIE OPRITĂ";
+                txtLiveTextPreview.Text = "PROIECȚIE OPRITĂ";
             }
         }
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -112,7 +114,7 @@ namespace Proiectie
             if (button != null)
             {
                 string textStrofa = button.DataContext.ToString();
-                txtLivePreview.Text = textStrofa;
+                txtLiveTextPreview.Text = textStrofa;
 
                 foreach (var window in _projectionWindows)
                 {
@@ -129,7 +131,7 @@ namespace Proiectie
             {
                 window.SetText("");
             }
-            txtLivePreview.Text = "- MUTE -";
+            txtLiveTextPreview.Text = "- MUTE -";
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -176,6 +178,27 @@ namespace Proiectie
                     }
                     e.Handled = true;
                 }
+            }
+        }
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                string clockTime;
+                if(txtLiveClockPreview.Text == "")
+                    clockTime = Functions.SetClock(DateTime.Now.Hour.ToString(), DateTime.Now.Minute.ToString());
+                else
+                    clockTime = Functions.SetClock("", "");
+
+                foreach (var window in _projectionWindows)
+                {
+                    if (window.IsLoaded)
+                    {
+                        window.txtClock.Text = clockTime;
+                    }
+                }
+
+                txtLiveClockPreview.Text = clockTime;
             }
         }
         private void AddSong_Click(object sender, RoutedEventArgs e)

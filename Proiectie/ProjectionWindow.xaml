@@ -11,5 +11,9 @@
         <TextBlock x:Name="txtMain" Foreground="White" FontSize="60" FontWeight="Bold" 
                    TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" 
                    TextWrapping="Wrap" Margin="50"/>
+
+        <TextBlock x:Name="txtClock" Foreground="White" FontSize="60" FontWeight="Bold" 
+           TextAlignment="Center" VerticalAlignment="Top"  HorizontalAlignment="Center" 
+           TextWrapping="Wrap" Margin="10"/>
     </Grid>
 </Window>
