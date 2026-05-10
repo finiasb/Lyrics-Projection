@@ -38,11 +38,11 @@ namespace Proiectie
 
                 if (window.rbContinut.IsChecked == true)
                 {
-                    sqlQuery = $@"SELECT id, titlu, versuri, autor FROM Cantece WHERE versuriNormalizate LIKE @filtru LIMIT 30";
+                    sqlQuery = $@"SELECT id, titlu, versuri, autor FROM Cantece WHERE versuriNormalizate LIKE @filtru LIMIT 50";
                 }
                 else
                 {
-                    sqlQuery = $@"SELECT id, titlu, versuri, autor FROM Cantece WHERE titluNormalizat LIKE @filtru OR SUBSTR(versuriNormalizate, 1, 60) LIKE @filtru LIMIT 30";
+                    sqlQuery = $@"SELECT id, titlu, versuri, autor FROM Cantece WHERE titluNormalizat LIKE @filtru OR SUBSTR(versuriNormalizate, 1, 60) LIKE @filtru LIMIT 50";
                 }
                 SqliteCommand command = new SqliteCommand(sqlQuery, connection);
                 command.Parameters.AddWithValue("@filtru", filtruSql);
