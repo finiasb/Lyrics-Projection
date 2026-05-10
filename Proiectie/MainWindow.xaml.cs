@@ -153,8 +153,11 @@ namespace Proiectie
         {
             if (e.Key == Key.Enter)
             {
-                Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
-                e.Handled = true;
+                if (lstStrofe.SelectedItem != null)
+                {
+                    Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
+                }
+                e.Handled = true; 
             }
         }
         private void lstStrofe_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -162,8 +165,14 @@ namespace Proiectie
             var item = ItemsControl.ContainerFromElement(lstStrofe, e.OriginalSource as DependencyObject) as ListBoxItem;
             if (item != null)
             {
-                Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
+                item.IsSelected = true;
+                Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, item.Content);
             }
+        }
+
+        private void lstStrofe_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -262,9 +271,9 @@ namespace Proiectie
         {
             AddSongWindow AddSong = new AddSongWindow();
             AddSong.Owner = this;
-            if (AddSong.ShowDialog() == true || AddSong.IsActive == false)
+            if (AddSong.ShowDialog() == true)
             {
-                
+                Functions.LoadSongs(this);
             }
         }
     }

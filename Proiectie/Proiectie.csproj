@@ -33,6 +33,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="10.0.7" />
+    <PackageReference Include="SQLite" Version="3.13.0" />
+    <PackageReference Include="System.Data.SQLite" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>

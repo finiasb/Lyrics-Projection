@@ -56,3 +56,8 @@ C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Debug\net8.0-windows\Settin
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\Proiectie.dll.config
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Debug\net8.0-windows\AddSongWindow.baml
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Debug\net8.0-windows\AddSongWindow.g.cs
+C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\System.Data.SQLite.dll
+C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtimes\linux-x64\native\libsqlite3.so
+C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtimes\osx-x64\native\libsqlite3.dylib
+C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtimes\win7-x64\native\sqlite3.dll
+C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtimes\win7-x86\native\sqlite3.dll
