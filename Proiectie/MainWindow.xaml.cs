@@ -153,33 +153,44 @@ namespace Proiectie
         {
             if (e.Key == Key.Enter)
             {
-                if (lstStrofe.SelectedItem != null)
-                {
-                    string textStrofa = lstStrofe.SelectedItem.ToString();
-
-                    txtLiveTextPreview.Text = textStrofa;
-
-                    foreach (var window in _projectionWindows)
-                    {
-                        if (window.IsLoaded)
-                        {
-                            window.SetText(textStrofa);
-                        }
-                    }
-
-                    if (_projectionWindows.Count >= 1 && lastSongSelected != null)
-                    {
-                        if (!_listaIstoric.Any(c => c.Id == lastSongSelected.Id))
-                        {
-                            _listaIstoric.Add(lastSongSelected);
-                        }
-                    }
-                }
-
+                SendLive(lstStrofe.SelectedItem);
                 e.Handled = true;
             }
         }
 
+        private void SendLive(object selectedItem)
+        {
+            if (selectedItem == null) return;
+
+            string textStrofa = selectedItem.ToString();
+            txtLiveTextPreview.Text = textStrofa; // Ne asigurăm că și preview-ul e la zi
+
+            foreach (var window in _projectionWindows)
+            {
+                if (window.IsLoaded)
+                {
+                    window.SetText(textStrofa);
+                }
+            }
+
+            // Adăugare în istoric
+            if (_projectionWindows.Count >= 1 && lastSongSelected != null)
+            {
+                if (!_listaIstoric.Any(c => c.Id == lastSongSelected.Id))
+                {
+                    _listaIstoric.Add(lastSongSelected);
+                }
+            }
+        }
+
+        private void lstStrofe_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var item = ItemsControl.ContainerFromElement(lstStrofe, e.OriginalSource as DependencyObject) as ListBoxItem;
+            if (item != null)
+            {
+                SendLive(item.Content);
+            }
+        }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (lstCantari.SelectedItem is Song selectata)

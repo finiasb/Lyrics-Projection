@@ -84,7 +84,7 @@
                 <!-- Schimbăm din ItemsControl în ListBox -->
                 <ListBox x:Name="lstStrofe" Background="Transparent" BorderThickness="0" 
              HorizontalContentAlignment="Stretch"
-             KeyDown="lstStrofe_KeyDown">
+             KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Background" Value="Transparent"/>
