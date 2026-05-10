@@ -37,11 +37,11 @@ namespace Proiectie
 
                 if (window.rbContinut.IsChecked == true)
                 {
-                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("versuri")} LIKE @filtru LIMIT 30";
+                    sqlQuery = $@"SELECT id, titlu, versuri, autor FROM Cantece WHERE versuriNormalizate LIKE @filtru LIMIT 30";
                 }
                 else
                 {
-                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("titlu")} LIKE @filtru OR {CreateSqlFiltre("SUBSTR(versuri, 1, 60)")} LIKE @filtru LIMIT 30";
+                    sqlQuery = $@"SELECT id, titlu, versuri, autor FROM Cantece WHERE titluNormalizat LIKE @filtru OR SUBSTR(versuriNormalizate, 1, 60) LIKE @filtru LIMIT 30";
                 }
                 SqliteCommand command = new SqliteCommand(sqlQuery, connection);
                 command.Parameters.AddWithValue("@filtru", filtruSql);
@@ -56,7 +56,8 @@ namespace Proiectie
                             {
                                 Id = reader.GetInt32(0),
                                 Title = reader.GetString(1),
-                                Verses = reader.GetString(2)
+                                Verses = reader.GetString(2),
+                                Author = reader.GetString(3)
                             });
                     }
                 }
@@ -64,10 +65,6 @@ namespace Proiectie
             }
         }
 
-        public static string CreateSqlFiltre(string column)
-        {
-            return $"REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LOWER({column}), '-', ' '), ',', ' '), 'ă', 'a'), 'ţ', 't'), 'ş', 's'), 'â', 'a'), 'î', 'i'), 'ș', 's'), 'ț', 't')";
-        }
         public static void LoadSongDetails(MainWindow window, Song selected)
         {
             window.lblSelectedTitle.Text = selected.Title;
