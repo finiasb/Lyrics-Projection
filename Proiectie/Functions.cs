@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -76,6 +77,31 @@ namespace Proiectie
                               .ToList();
             window.lstStrofe.ItemsSource = strofe;
         }
+
+        public static void SendLive(MainWindow window, List<ProjectionWindow> _projectionWindows, Song lastSongSelected, ObservableCollection<Song> _listaIstoric, object selectedItem)
+        {
+            if (selectedItem == null) return;
+
+            string textStrofa = selectedItem.ToString();
+            window.txtLiveTextPreview.Text = textStrofa;
+
+            foreach (var _projWindow in _projectionWindows)
+            {
+                if (_projWindow.IsLoaded)
+                {
+                    _projWindow.SetText(textStrofa);
+                }
+            }
+
+            if (_projectionWindows.Count >= 1 && lastSongSelected != null)
+            {
+                if (!_listaIstoric.Any(c => c.Id == lastSongSelected.Id))
+                {
+                    _listaIstoric.Add(lastSongSelected);
+                }
+            }
+        }
+
         public static void LoadMonitors(SettingsWindow window)
         {
             var screens = System.Windows.Forms.Screen.AllScreens;

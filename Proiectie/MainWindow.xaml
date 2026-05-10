@@ -42,7 +42,6 @@
                         <Button Content="⚙" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="OpenSettings_Click"/>
 
                     </StackPanel>
-                    <!-- BUTOANE TIP CĂUTARE -->
                     <UniformGrid Columns="2" Margin="5,0,5,10">
                         <RadioButton x:Name="rbTitlu" Content="Titlu" IsChecked="True" Foreground="White" GroupName="SearchType" Checked="SearchType_Changed"/>
                         <RadioButton x:Name="rbContinut" Content="Conținut" Foreground="White" GroupName="SearchType" Checked="SearchType_Changed"/>
@@ -54,25 +53,17 @@
 
                 <ListBox x:Name="lstCantari" Grid.Row="1" Margin="0,10,0,50" Background="Transparent" BorderThickness="0" 
                          Foreground="White" DisplayMemberPath="Title" SelectionChanged="lstCantari_SelectionChanged" PreviewKeyDown="lstCantari_KeyDown">
-                    <!-- ContextMenu pentru a adăuga la favorite -->
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Adaugă în Program" Click="MenuItem_Click"/>
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
-                <Button Grid.Row="1" 
-                    Content="Adaugă în lista" 
-                    VerticalAlignment="Bottom" 
-                    Height="35" 
-                    Margin="5"
-                    Background="#007ACC" 
-                    Foreground="White" 
-                    FontWeight="Bold"
-                    Click="MenuItem_Click"/>
+                <Button Grid.Row="1" Content="Adaugă în lista" VerticalAlignment="Bottom" Height="35" Margin="5" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="MenuItem_Click"/>
                 </Grid>
         </Border>
 
+        <!-- SECȚIUNEA CANTARE-->
         <Grid Grid.Column="1" Margin="20" Background="#2D2D2D">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -81,10 +72,7 @@
             <TextBlock x:Name="lblSelectedTitle" Text="Nicio cântare selectată" 
                        Foreground="#007ACC" FontSize="24" FontWeight="Light" Margin="0,0,0,20"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-                <!-- Schimbăm din ItemsControl în ListBox -->
-                <ListBox x:Name="lstStrofe" Background="Transparent" BorderThickness="0" 
-             HorizontalContentAlignment="Stretch"
-             KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown">
+                <ListBox x:Name="lstStrofe" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch" KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Background" Value="Transparent"/>
@@ -92,21 +80,14 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="border" 
-                                    Background="#333" 
-                                    BorderBrush="#444" 
-                                    BorderThickness="1" 
-                                    CornerRadius="5" 
-                                    Padding="15">
+                                        <Border x:Name="border" Background="#333" BorderBrush="#444" BorderThickness="1" CornerRadius="5" Padding="15">
                                             <ContentPresenter />
                                         </Border>
                                         <ControlTemplate.Triggers>
-                                            <!-- Culoarea care RĂMÂNE când strofa e selectată -->
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter TargetName="border" Property="Background" Value="#005A9E"/>
                                                 <Setter TargetName="border" Property="BorderBrush" Value="#007ACC"/>
                                             </Trigger>
-                                            <!-- Efect de hover când treci cu mouse-ul -->
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="border" Property="BorderBrush" Value="#888"/>
                                             </Trigger>

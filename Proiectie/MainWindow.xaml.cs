@@ -8,7 +8,6 @@ namespace Proiectie
 {
     public partial class MainWindow : Window
     {
-        private ProjectionWindow _projectionWindow;
         private ObservableCollection<Song> _listaFavorite = new ObservableCollection<Song>();
         private ObservableCollection<Song> _listaIstoric = new ObservableCollection<Song>();
         private List<ProjectionWindow> _projectionWindows = new List<ProjectionWindow>();
@@ -153,42 +152,16 @@ namespace Proiectie
         {
             if (e.Key == Key.Enter)
             {
-                SendLive(lstStrofe.SelectedItem);
+                Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
                 e.Handled = true;
             }
         }
-
-        private void SendLive(object selectedItem)
-        {
-            if (selectedItem == null) return;
-
-            string textStrofa = selectedItem.ToString();
-            txtLiveTextPreview.Text = textStrofa; // Ne asigurăm că și preview-ul e la zi
-
-            foreach (var window in _projectionWindows)
-            {
-                if (window.IsLoaded)
-                {
-                    window.SetText(textStrofa);
-                }
-            }
-
-            // Adăugare în istoric
-            if (_projectionWindows.Count >= 1 && lastSongSelected != null)
-            {
-                if (!_listaIstoric.Any(c => c.Id == lastSongSelected.Id))
-                {
-                    _listaIstoric.Add(lastSongSelected);
-                }
-            }
-        }
-
         private void lstStrofe_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var item = ItemsControl.ContainerFromElement(lstStrofe, e.OriginalSource as DependencyObject) as ListBoxItem;
             if (item != null)
             {
-                SendLive(item.Content);
+                Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
             }
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
