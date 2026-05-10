@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\App.xaml
-31307353228
+4539925648
 
-121352791781
+13218960766
 212-1410426325
-MainWindow.xaml;ProjectionWindow.xaml;SettingsWindow.xaml;
+AddSongWindow.xaml;MainWindow.xaml;ProjectionWindow.xaml;SettingsWindow.xaml;
 
-False
+True
 

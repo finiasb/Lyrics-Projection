@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Proiectie.Properties;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -259,7 +260,12 @@ namespace Proiectie
         }
         private void AddSong_Click(object sender, RoutedEventArgs e)
         {
-
+            AddSongWindow AddSong = new AddSongWindow();
+            AddSong.Owner = this;
+            if (AddSong.ShowDialog() == true || AddSong.IsActive == false)
+            {
+                
+            }
         }
     }
 }
