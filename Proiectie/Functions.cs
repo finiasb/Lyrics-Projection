@@ -68,6 +68,7 @@ namespace Proiectie
 
         public static void LoadSongDetails(MainWindow window, Song selected)
         {
+            window.lblSelectedAuthor.Text = "Autor: " + (string.IsNullOrWhiteSpace(selected.Author) ? "Anonim" : selected.Author);
             window.lblSelectedTitle.Text = selected.Title;
             var strofe = Regex.Split(selected.Verses, @"(?=\d+\.)|(?:\r?\n){2,}")
                               .Select(s => s.Trim())

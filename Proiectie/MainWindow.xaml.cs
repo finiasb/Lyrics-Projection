@@ -1,10 +1,9 @@
-﻿using Proiectie.Properties;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.Data.SQLite;
 namespace Proiectie
 {
     public partial class MainWindow : Window
@@ -170,6 +169,50 @@ namespace Proiectie
             }
         }
 
+        private void Delete_Click(object sender, RoutedEventArgs e) // Am schimbat în RoutedEventArgs
+        {
+            if (lstCantari.SelectedItem is Song selectata)
+            {
+                System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show($"Ești sigur că vrei să ștergi definitiv cântarea: {selectata.Title}?", "Confirmare Ștergere", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Warning);
+
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    try
+                    {
+                        DeleteSongFromDatabase(selectata.Id);
+
+                        Functions.LoadSongs(this, txtSearch.Text);
+                        
+                        lblSelectedTitle.Text = "Cântare ștearsă";
+                        lstStrofe.ItemsSource = null;
+
+                        System.Windows.Forms.MessageBox.Show("Cântarea a fost ștearsă cu succes.");
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Eroare la ștergere: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Te rugăm să selectezi o cântare din listă pentru a o șterge.");
+            }
+        }
+        private void DeleteSongFromDatabase(int id)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Cantece WHERE id = @id";
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
         private void lstStrofe_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             

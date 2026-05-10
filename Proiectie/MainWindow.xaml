@@ -38,6 +38,7 @@
                 <StackPanel>
                     <Label Content="BIBLIOTECĂ CÂNTĂRI" Foreground="White" FontWeight="Bold" Margin="0,0,0,5"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="🗑️" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="Delete_Click"/>
                         <Button Content="+" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="AddSong_Click"/>
                         <Button Content="⚙" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="OpenSettings_Click"/>
 
@@ -70,8 +71,22 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="lblSelectedTitle" Text="Nicio cântare selectată" 
-                       Foreground="#007ACC" FontSize="24" FontWeight="Light" Margin="0,0,0,20"/>
+            <DockPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock x:Name="lblSelectedAuthor" 
+                   Text="Autor: -" 
+                   DockPanel.Dock="Right" 
+                   Foreground="#888888" 
+                   FontSize="16" 
+                   VerticalAlignment="Bottom" 
+                   Margin="10,0,0,5"/>
+
+                <TextBlock x:Name="lblSelectedTitle" 
+                   Text="Nicio cântare selectată" 
+                   Foreground="#007ACC" 
+                   FontSize="24" 
+                   FontWeight="Light" 
+                   TextTrimming="CharacterEllipsis"/>
+            </DockPanel>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                 <ListBox x:Name="lstStrofe" Background="Transparent" VirtualizingStackPanel.IsVirtualizing="False" BorderThickness="0" HorizontalContentAlignment="Stretch" KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown" SelectionChanged="lstStrofe_SelectionChanged">
                     <ListBox.ItemContainerStyle>
