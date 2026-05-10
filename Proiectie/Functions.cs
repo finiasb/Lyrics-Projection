@@ -74,7 +74,7 @@ namespace Proiectie
                               .Where(s => !s.StartsWith("I:"))
                               .Where(s => !s.StartsWith("O:"))
                               .ToList();
-            window.itemsStrofe.ItemsSource = strofe;
+            window.lstStrofe.ItemsSource = strofe;
         }
         public static void LoadMonitors(SettingsWindow window)
         {

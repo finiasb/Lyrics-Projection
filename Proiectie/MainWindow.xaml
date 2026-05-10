@@ -11,7 +11,7 @@
         Width="800" 
         d:DesignHeight="1080" 
         d:DesignWidth="1920" 
-        Background="#252525"
+        Background="#2D2D2D"
         KeyDown="Window_KeyDown"
         Icon="app_icon.png">
     <Window.Resources>
@@ -49,11 +49,11 @@
                     </UniformGrid>
 
                     <TextBox x:Name="txtSearch" Height="30" Background="#3F3F3F" Foreground="White" 
-                             BorderThickness="0" VerticalContentAlignment="Center" Margin="5,0"/>
+                             BorderThickness="0" VerticalContentAlignment="Center" Margin="5,0" PreviewKeyDown="TxtSearch_KeyDown" TextChanged="TxtSearch_TextChanged"/>
                 </StackPanel>
 
                 <ListBox x:Name="lstCantari" Grid.Row="1" Margin="0,10,0,50" Background="Transparent" BorderThickness="0" 
-                         Foreground="White" DisplayMemberPath="Title" SelectionChanged="lstCantari_SelectionChanged">
+                         Foreground="White" DisplayMemberPath="Title" SelectionChanged="lstCantari_SelectionChanged" PreviewKeyDown="lstCantari_KeyDown">
                     <!-- ContextMenu pentru a adăuga la favorite -->
                     <ListBox.ContextMenu>
                         <ContextMenu>
@@ -73,30 +73,61 @@
                 </Grid>
         </Border>
 
-        <Grid Grid.Column="1" Margin="20">
+        <Grid Grid.Column="1" Margin="20" Background="#2D2D2D">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock x:Name="lblSelectedTitle" Text="Nicio cântare selectată" 
                        Foreground="#007ACC" FontSize="24" FontWeight="Light" Margin="0,0,0,20"/>
-            <ScrollViewer Grid.Row="1">
-                <ItemsControl x:Name="itemsStrofe">
-                    <ItemsControl.ItemTemplate>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                <!-- Schimbăm din ItemsControl în ListBox -->
+                <ListBox x:Name="lstStrofe" Background="Transparent" BorderThickness="0" 
+             HorizontalContentAlignment="Stretch"
+             KeyDown="lstStrofe_KeyDown">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Margin" Value="0,0,0,10"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="border" 
+                                    Background="#333" 
+                                    BorderBrush="#444" 
+                                    BorderThickness="1" 
+                                    CornerRadius="5" 
+                                    Padding="15">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <!-- Culoarea care RĂMÂNE când strofa e selectată -->
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
+                                                <Setter TargetName="border" Property="BorderBrush" Value="#007ACC"/>
+                                            </Trigger>
+                                            <!-- Efect de hover când treci cu mouse-ul -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="BorderBrush" Value="#888"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Margin="0,0,0,10" Background="#333" BorderThickness="1" BorderBrush="#444"
-                                    Click="Strofa_Click" HorizontalContentAlignment="Stretch">
-                                <StackPanel Margin="15">
-                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" Foreground="White" FontSize="18" LineHeight="25"/>
-                                </StackPanel>
-                            </Button>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" Foreground="White" 
+                           FontSize="18" LineHeight="25"/>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </ScrollViewer>
         </Grid>
 
-        <Border Grid.Column="2" Background="#1E1E1E" Padding="15">
+        <Border Grid.Column="2" Background="#2D2D2D" Padding="15">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

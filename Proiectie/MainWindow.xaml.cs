@@ -2,12 +2,13 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging; 
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 namespace Proiectie
 {
     public partial class MainWindow : Window
     {
-        private ProjectionWindow _projectionWindow; 
+        private ProjectionWindow _projectionWindow;
         private ObservableCollection<Song> _listaFavorite = new ObservableCollection<Song>();
         private ObservableCollection<Song> _listaIstoric = new ObservableCollection<Song>();
         private List<ProjectionWindow> _projectionWindows = new List<ProjectionWindow>();
@@ -25,10 +26,9 @@ namespace Proiectie
             }
 
             Functions.LoadSongs(this);
-            txtSearch.TextChanged += TxtSearch_TextChanged;
-            txtSearch.KeyDown += TxtSearch_KeyDown;
 
-            this.Closing += (s, e) => {
+            this.Closing += (s, e) =>
+            {
                 foreach (var window in _projectionWindows)
                 {
                     window.Close();
@@ -66,7 +66,7 @@ namespace Proiectie
 
                 foreach (var screen in screens)
                 {
-                    bool shouldProject = targetIds.Count > 0 ? targetIds.Contains(screen.DeviceName): !screen.Primary; 
+                    bool shouldProject = targetIds.Count > 0 ? targetIds.Contains(screen.DeviceName) : !screen.Primary;
 
                     if (shouldProject)
                     {
@@ -82,7 +82,7 @@ namespace Proiectie
                         _projectionWindows.Add(window);
 
                         Functions.UpdateBackground(window.imgBackground);
-                        if(txtLiveTextPreview.Text != "- MUTE -" && txtLiveTextPreview.Text != "PROIECȚIE ACTIVĂ" && txtLiveTextPreview.Text != "PROIECȚIE OPRITĂ" && txtLiveTextPreview.Text != "-")
+                        if (txtLiveTextPreview.Text != "- MUTE -" && txtLiveTextPreview.Text != "PROIECȚIE ACTIVĂ" && txtLiveTextPreview.Text != "PROIECȚIE OPRITĂ" && txtLiveTextPreview.Text != "-")
                             window.SetText(txtLiveTextPreview.Text);
                     }
                 }
@@ -91,7 +91,7 @@ namespace Proiectie
                 {
                     btnToggleProjection.Content = "OPREȘTE PROIECȚIA";
                     btnToggleProjection.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#C0392B"));
-                    if(txtLiveTextPreview.Text == "-")
+                    if (txtLiveTextPreview.Text == "-")
                         txtLiveTextPreview.Text = "PROIECȚIE ACTIVĂ";
                 }
             }
@@ -111,7 +111,7 @@ namespace Proiectie
         }
         private void BtnStergeLista_Click(object sender, RoutedEventArgs e)
         {
-            if(BtnDeleteFromList.Content == "Șterge din favorite")
+            if (BtnDeleteFromList.Content == "Șterge din favorite")
             {
                 if (lstFavOrIstoric.SelectedItem is Song selected)
                 {
@@ -140,33 +140,6 @@ namespace Proiectie
             }
         }
 
-        private void Strofa_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as System.Windows.Controls.Button;
-
-            if (button != null)
-            {
-                string textStrofa = button.DataContext.ToString();
-                txtLiveTextPreview.Text = textStrofa;
-
-                if(_projectionWindows.Count >= 1)
-                {
-                    if (!_listaIstoric.Any(c => c.Id == lastSongSelected.Id))
-                    {
-                        _listaIstoric.Add(lastSongSelected);
-                    }
-                }
-
-
-                foreach (var window in _projectionWindows)
-                {
-                    if (window.IsLoaded)
-                    {
-                        window.SetText(textStrofa);
-                    }
-                }
-            }
-        }
         private void Blackout_Click(object sender, RoutedEventArgs e)
         {
             foreach (var window in _projectionWindows)
@@ -175,6 +148,38 @@ namespace Proiectie
             }
             txtLiveTextPreview.Text = "- MUTE -";
         }
+
+        private void lstStrofe_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (lstStrofe.SelectedItem != null)
+                {
+                    string textStrofa = lstStrofe.SelectedItem.ToString();
+
+                    txtLiveTextPreview.Text = textStrofa;
+
+                    foreach (var window in _projectionWindows)
+                    {
+                        if (window.IsLoaded)
+                        {
+                            window.SetText(textStrofa);
+                        }
+                    }
+
+                    if (_projectionWindows.Count >= 1 && lastSongSelected != null)
+                    {
+                        if (!_listaIstoric.Any(c => c.Id == lastSongSelected.Id))
+                        {
+                            _listaIstoric.Add(lastSongSelected);
+                        }
+                    }
+                }
+
+                e.Handled = true;
+            }
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (lstCantari.SelectedItem is Song selectata)
@@ -220,13 +225,39 @@ namespace Proiectie
                 }
             }
         }
+        private void lstCantari_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                if (lstStrofe.Items.Count > 0)
+                {
+                    lstStrofe.SelectedIndex = 0;
+
+                    var item = lstStrofe.ItemContainerGenerator.ContainerFromIndex(0) as ListBoxItem;
+                    item?.Focus();
+                }
+            }
+        }
+
+        private T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T) return (T)child;
+                T childOfChild = FindVisualChild<T>(child);
+                if (childOfChild != null) return childOfChild;
+            }
+            return null;
+        }
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.F12)
             {
                 // i can do a cleaner function here
                 string clockTime;
-                if(txtLiveClockPreview.Text == "")
+                if (txtLiveClockPreview.Text == "")
                     clockTime = Functions.SetClock(DateTime.Now.Hour.ToString(), DateTime.Now.Minute.ToString());
                 else
                     clockTime = Functions.SetClock("", "");
