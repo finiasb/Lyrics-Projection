@@ -37,11 +37,11 @@ namespace Proiectie
 
                 if (window.rbContinut.IsChecked == true)
                 {
-                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("versuri")} LIKE @filtru LIMIT 46";
+                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("versuri")} LIKE @filtru LIMIT 30";
                 }
                 else
                 {
-                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("titlu")} LIKE @filtru OR {CreateSqlFiltre("SUBSTR(versuri, 1, 60)")} LIKE @filtru LIMIT 46";
+                    sqlQuery = $@"SELECT id, titlu, versuri FROM Cantece WHERE {CreateSqlFiltre("titlu")} LIKE @filtru OR {CreateSqlFiltre("SUBSTR(versuri, 1, 60)")} LIKE @filtru LIMIT 30";
                 }
                 SqliteCommand command = new SqliteCommand(sqlQuery, connection);
                 command.Parameters.AddWithValue("@filtru", filtruSql);
@@ -64,7 +64,7 @@ namespace Proiectie
             }
         }
 
-        private static string CreateSqlFiltre(string column)
+        public static string CreateSqlFiltre(string column)
         {
             return $"REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(LOWER({column}), '-', ' '), ',', ' '), 'ă', 'a'), 'ţ', 't'), 'ş', 's'), 'â', 'a'), 'î', 'i'), 'ș', 's'), 'ț', 't')";
         }
