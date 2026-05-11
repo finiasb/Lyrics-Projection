@@ -10,7 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="add.ico" />
     <None Remove="app_icon.png" />
+    <None Remove="edit.png" />
+    <None Remove="edit2.png" />
+    <None Remove="settings.ico" />
+    <None Remove="settings2.png" />
+    <None Remove="trash.ico" />
+    <None Remove="trash2.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +47,10 @@
 
   <ItemGroup>
     <Resource Include="app_icon.png" />
+    <Resource Include="edit.png" />
+    <Resource Include="edit2.png" />
+    <Resource Include="settings.ico" />
+    <Resource Include="settings2.png" />
   </ItemGroup>
 
   <ItemGroup>

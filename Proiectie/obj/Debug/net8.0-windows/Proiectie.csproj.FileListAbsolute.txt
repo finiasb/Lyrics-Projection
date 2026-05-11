@@ -61,3 +61,5 @@ C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtim
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtimes\osx-x64\native\libsqlite3.dylib
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtimes\win7-x64\native\sqlite3.dll
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Debug\net8.0-windows\runtimes\win7-x86\native\sqlite3.dll
+C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Debug\net8.0-windows\EditSongWindow.baml
+C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Debug\net8.0-windows\EditSongWindow.g.cs

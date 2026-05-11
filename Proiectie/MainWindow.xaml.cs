@@ -319,5 +319,17 @@ namespace Proiectie
                 Functions.LoadSongs(this);
             }
         }
+
+        private void OpenEditPage_Click(object sender, RoutedEventArgs e)
+        {
+            EditSongWindow EditSong = new EditSongWindow(lastSongSelected);
+            EditSong.Owner = this;
+            if(EditSong.ShowDialog() == true)
+            {
+                txtSearch.Text = "";
+                lstStrofe.ItemsSource = null;
+                Functions.LoadSongs(this);
+            }
+        }
     }
 }

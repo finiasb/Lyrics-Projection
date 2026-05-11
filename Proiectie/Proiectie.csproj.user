@@ -10,6 +10,9 @@
     <Compile Update="AddSongWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="EditSongWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ProjectionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -19,6 +22,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddSongWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EditSongWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

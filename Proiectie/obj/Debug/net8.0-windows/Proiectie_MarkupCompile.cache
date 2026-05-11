@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\App.xaml
-4539925648
+5656586659
 
-11-116541414
+12-1518358259
 213-2106716443
-AddSongWindow.xaml;MainWindow.xaml;ProjectionWindow.xaml;SettingsWindow.xaml;
+AddSongWindow.xaml;EditSongWindow.xaml;MainWindow.xaml;ProjectionWindow.xaml;SettingsWindow.xaml;
 
 False
 

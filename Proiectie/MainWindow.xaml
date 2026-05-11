@@ -40,8 +40,12 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="🗑️" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="Delete_Click"/>
                         <Button Content="+" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="AddSong_Click"/>
-                        <Button Content="⚙" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="OpenSettings_Click"/>
-
+                        <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenEditPage_Click">
+                            <Image Source="edit.png" Width="20" Height="20"/>
+                        </Button>
+                        <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenSettings_Click">
+                            <Image Source="settings2.png" Width="20" Height="20"/>
+                        </Button>
                     </StackPanel>
                     <UniformGrid Columns="2" Margin="5,0,5,10">
                         <RadioButton x:Name="rbTitlu" Content="Titlu" IsChecked="True" Foreground="White" GroupName="SearchType" Checked="SearchType_Changed"/>
