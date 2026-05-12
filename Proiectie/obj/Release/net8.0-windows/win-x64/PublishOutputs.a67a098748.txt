@@ -1,0 +1,4 @@
+C:\Users\Fineas\OneDrive\Desktop\New folder\Proiectie.pdb
+C:\Users\Fineas\OneDrive\Desktop\New folder\Proiectie.dll.config
+C:\Users\Fineas\OneDrive\Desktop\New folder\e_sqlite3.dll
+C:\Users\Fineas\OneDrive\Desktop\New folder\Proiectie.exe

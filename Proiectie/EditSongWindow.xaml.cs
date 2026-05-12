@@ -46,14 +46,12 @@ namespace Proiectie
             string autorNou = txtNewAuthor.Text.Trim();
             string versuriNoi = txtNewContent.Text.Trim();
 
-            // 2. Validare minimă
             if (string.IsNullOrWhiteSpace(titluNou) || string.IsNullOrWhiteSpace(versuriNoi))
             {
                 System.Windows.Forms.MessageBox.Show("Titlul și conținutul nu pot fi goale!");
                 return;
             }
 
-            // 3. Normalizăm textul pentru căutare (scoatem diacriticele)
             string titluNorm = Functions.NormalizeazaText(titluNou);
             string versuriNorm = Functions.NormalizeazaText(versuriNoi);
 

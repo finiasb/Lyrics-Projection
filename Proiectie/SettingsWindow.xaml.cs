@@ -1,32 +1,56 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 
 namespace Proiectie
 {
     public partial class SettingsWindow : Window
     {
         public static List<string> SelectedMonitorIds = new List<string>();
-
-        public SettingsWindow()
+        MainWindow mw;
+        public SettingsWindow(MainWindow window)
         {
             InitializeComponent();
             Functions.LoadMonitors(this);
+            mw = window;
+            cmbFonts.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
 
             txtImagePath.Text = Properties.Settings.Default.BackgroundImagePath;
+
+            string savedFont = Properties.Settings.Default.SelectedFont;
+            if (!string.IsNullOrEmpty(savedFont))
+            {
+                cmbFonts.SelectedItem = Fonts.SystemFontFamilies.FirstOrDefault(f => f.Source == savedFont);
+            }
+            else
+            {
+                cmbFonts.SelectedIndex = 0; 
+            }
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             var selected = (List<MonitorOption>)MonitorsList.ItemsSource;
             var collection = new System.Collections.Specialized.StringCollection();
 
+            SelectedMonitorIds.Clear();
+
             foreach (var item in selected.Where(x => x.IsSelected))
             {
                 collection.Add(item.ScreenId);
-                SelectedMonitorIds.Add(item.ScreenId);
+                SelectedMonitorIds.Add(item.ScreenId); 
+            }
+            if (cmbFonts.SelectedItem is System.Windows.Media.FontFamily selectedFont)
+            {
+                Properties.Settings.Default.SelectedFont = selectedFont.Source;
             }
             Properties.Settings.Default.BackgroundImagePath = txtImagePath.Text;
             Properties.Settings.Default.SavedMonitors = collection;
-
             Properties.Settings.Default.Save();
+
+            string fontName = Properties.Settings.Default.SelectedFont;
+            mw.txtLiveClockPreview.FontFamily = new System.Windows.Media.FontFamily(fontName);
+            mw.txtLiveTextPreview.FontFamily = new System.Windows.Media.FontFamily(fontName);
+
+            this.DialogResult = true; 
             this.Close();
         }
 
@@ -46,23 +70,6 @@ namespace Proiectie
         private void ClearImage_Click(Object sender, RoutedEventArgs e)
         {
             txtImagePath.Text = string.Empty;
-        }
-        private void DecreaseFont_Click(object sender, RoutedEventArgs e)
-        {
-            if (double.TryParse(txtFontSize.Text, out double currentSize))
-            {
-                if (currentSize > 10) 
-                    txtFontSize.Text = (currentSize - 2).ToString();
-            }
-        }
-
-        private void IncreaseFont_Click(object sender, RoutedEventArgs e)
-        {
-            if (double.TryParse(txtFontSize.Text, out double currentSize))
-            {
-                if (currentSize < 300) 
-                    txtFontSize.Text = (currentSize + 2).ToString();
-            }
         }
     }
 }

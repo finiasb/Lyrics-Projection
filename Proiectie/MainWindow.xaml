@@ -16,9 +16,24 @@
         Icon="app_icon.png">
     <Window.Resources>
         <Style TargetType="RadioButton">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#AAAAAA"/>
+            <Setter Property="Margin" Value="5,2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border" Background="Transparent" BorderBrush="#444" BorderThickness="0,0,0,2" Padding="5">
+                            <ContentPresenter HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#007ACC"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
         
@@ -35,30 +50,32 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <Label Content="BIBLIOTECĂ CÂNTĂRI" Foreground="White" FontWeight="Bold" Margin="0,0,0,5"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Content="🗑️" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="Delete_Click"/>
-                        <Button Content="+" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="AddSong_Click"/>
-                        <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenEditPage_Click">
-                            <Image Source="edit.png" Width="20" Height="20"/>
-                        </Button>
-                        <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenSettings_Click">
-                            <Image Source="settings2.png" Width="20" Height="20"/>
-                        </Button>
-                    </StackPanel>
+                <StackPanel Grid.Row="0">
+                    <DockPanel LastChildFill="True" Margin="0,0,0,10">
+
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                            <Button Content="🗑️" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="Delete_Click" ToolTip="Șterge"/>
+                            <Button Content="+" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="AddSong_Click" ToolTip="Adaugă"/>
+                            <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenEditPage_Click" ToolTip="Editează">
+                                <Image Source="edit.png" Width="18" Height="18" Opacity="0.8"/>
+                            </Button>
+                            <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenSettings_Click" ToolTip="Setări">
+                                <Image Source="settings2.png" Width="18" Height="18" Opacity="0.8"/>
+                            </Button>
+                        </StackPanel>
+
+                        <Label Content="BIBLIOTECĂ CÂNTĂRI" Foreground="White" FontWeight="Bold" FontSize="16"  VerticalAlignment="Center" Height="20" Padding="5,0,0,0"/>
+                    </DockPanel>
+
                     <UniformGrid Columns="2" Margin="5,0,5,10">
-                        <RadioButton x:Name="rbTitlu" Content="Titlu" IsChecked="True" Foreground="White" GroupName="SearchType" Checked="SearchType_Changed"/>
-                        <RadioButton x:Name="rbContinut" Content="Conținut" Foreground="White" GroupName="SearchType" Checked="SearchType_Changed"/>
+                        <RadioButton x:Name="rbTitlu" Content="Titlu" IsChecked="True" GroupName="SearchType" Checked="SearchType_Changed"/>
+                        <RadioButton x:Name="rbContinut" Content="Conținut" GroupName="SearchType" Checked="SearchType_Changed"/>
                     </UniformGrid>
 
-                    <TextBox x:Name="txtSearch" Height="30" Background="#3F3F3F" Foreground="White" 
-                             BorderThickness="0" VerticalContentAlignment="Center" Margin="5,0" PreviewKeyDown="TxtSearch_KeyDown" TextChanged="TxtSearch_TextChanged"/>
+                    <TextBox x:Name="txtSearch" Height="30"  Background="#3F3F3F" Foreground="White" BorderThickness="0" VerticalContentAlignment="Center" Margin="5,0" PreviewKeyDown="TxtSearch_KeyDown" TextChanged="TxtSearch_TextChanged"/>
                 </StackPanel>
 
-                <ListBox x:Name="lstCantari" Grid.Row="1" Margin="0,10,0,50" Background="Transparent" BorderThickness="0" 
-                         Foreground="White" DisplayMemberPath="Title" SelectionChanged="lstCantari_SelectionChanged" PreviewKeyDown="lstCantari_KeyDown" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox x:Name="lstCantari" Grid.Row="1" Margin="0,10,0,50" Background="Transparent" BorderThickness="0" Foreground="White" DisplayMemberPath="Title" SelectionChanged="lstCantari_SelectionChanged" PreviewKeyDown="lstCantari_KeyDown" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Adaugă în Program" Click="MenuItem_Click"/>
@@ -69,63 +86,50 @@
                 </Grid>
         </Border>
 
-        <!-- SECȚIUNEA CANTARE-->
         <Grid Grid.Column="1" Margin="20" Background="#2D2D2D">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
             <DockPanel Grid.Row="0" Margin="0,0,0,20">
-                <TextBlock x:Name="lblSelectedAuthor" 
-                   Text="Autor: -" 
-                   DockPanel.Dock="Right" 
-                   Foreground="#888888" 
-                   FontSize="16" 
-                   VerticalAlignment="Bottom" 
-                   Margin="10,0,0,5"/>
-
-                <TextBlock x:Name="lblSelectedTitle" 
-                   Text="Nicio cântare selectată" 
-                   Foreground="#007ACC" 
-                   FontSize="24" 
-                   FontWeight="Light" 
-                   TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="lblSelectedAuthor" Text="Autor: -" DockPanel.Dock="Right" Foreground="#888888" FontSize="16" VerticalAlignment="Bottom" Margin="10,0,0,5"/>
+                <TextBlock x:Name="lblSelectedTitle" Text="Nicio cântare selectată" Foreground="White" FontSize="28" FontWeight="Light" TextTrimming="CharacterEllipsis"/>
             </DockPanel>
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-                <ListBox x:Name="lstStrofe" Background="Transparent" VirtualizingStackPanel.IsVirtualizing="False" BorderThickness="0" HorizontalContentAlignment="Stretch" KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown" SelectionChanged="lstStrofe_SelectionChanged">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Margin" Value="0,0,0,10"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="border" Background="#333" BorderBrush="#444" BorderThickness="1" CornerRadius="5" Padding="15">
-                                            <ContentPresenter />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="#005A9E"/>
-                                                <Setter TargetName="border" Property="BorderBrush" Value="#007ACC"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="BorderBrush" Value="#888"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" TextWrapping="Wrap" Foreground="White" 
+            <ListBox x:Name="lstStrofe" Grid.Row="1" Background="Transparent" VirtualizingStackPanel.IsVirtualizing="False" BorderThickness="0" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True"           KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown" SelectionChanged="lstStrofe_SelectionChanged" Margin="0,15,0,0">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Margin" Value="0,0,0,10"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="border" Background="#333" BorderBrush="#444" BorderThickness="1" CornerRadius="5" Padding="15">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#005A9E"/>
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#007ACC"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#888"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" TextWrapping="Wrap" Foreground="White" 
                            FontSize="18" LineHeight="25"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
 
         <Border Grid.Column="2" Background="#2D2D2D" Padding="15">
@@ -134,10 +138,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
-                <!-- SECȚIUNEA LIVE -->
                 <StackPanel Grid.Row="0">
-                    <Label Content="LIVE PE ECRAN" Foreground="#FF4500" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <Border Height="150" CornerRadius="5" BorderBrush="#555" BorderThickness="1" ClipToBounds="True">
                         <Grid Background="Black">
                             <Image x:Name="imgPreviewBackground" Stretch="UniformToFill" />
@@ -147,11 +148,16 @@
                         </Grid>
                     </Border>
 
-                    <Button x:Name="btnToggleProjection" Content="DESCHIDE PROIECȚIA" Margin="0,10,0,5" Height="35" Background="#28A745" Foreground="White" Click="btnToggleProjection_Click"/>
-                    <Button Content="ASCUNDE TEXTUL" Height="35" Background="#C0392B" Foreground="White" Click="Blackout_Click" Margin="0,0,0,20"/>
+                    <Grid Margin="0,15,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnToggleProjection" Content="START LIVE" Grid.Column="0" Margin="0,0,5,0" Height="40" Background="#28A745" Click="btnToggleProjection_Click"/>
+                        <Button Content="ASCUNDE" Grid.Column="1" Margin="5,0,0,0" Height="40" Background="#C0392B"  Click="Blackout_Click"/>
+                    </Grid>
                 </StackPanel>
 
-                <!-- SECȚIUNEA FAVORITE (PROGRAM) -->
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -163,9 +169,8 @@
                         <RadioButton x:Name="rbIstoric" Content="Istoric" Foreground="White" GroupName="ListType" Checked="ListType_Changed"/>
                     </UniformGrid>
                     
-                    <ListBox x:Name="lstFavOrIstoric" Grid.Row="1" Background="#252525" BorderBrush="#333" Foreground="White" 
-                             DisplayMemberPath="Title" SelectionChanged="lstFavorite_SelectionChanged"/>
-                    <Button Grid.Row="2" x:Name="BtnDeleteFromList" Content="Șterge din favorite" Click="BtnStergeLista_Click" Background="#444" Foreground="White" Margin="0,5,0,0"/>
+                    <ListBox x:Name="lstFavOrIstoric" Grid.Row="1" Background="#252525" BorderBrush="#333" Foreground="White" DisplayMemberPath="Title" SelectionChanged="lstFavorite_SelectionChanged"/>
+                    <Button Grid.Row="2" x:Name="BtnDeleteFromList" Content="Șterge din favorite" Click="BtnStergeLista_Click" Background="#444" Foreground="White" Height="35" Margin="0,5,0,0"/>
                 </Grid>
             </Grid>
         </Border>

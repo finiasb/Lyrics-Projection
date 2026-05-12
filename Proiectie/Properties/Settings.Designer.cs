@@ -48,25 +48,25 @@ namespace Proiectie.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Arial")]
-        public string FontFamily {
+        [global::System.Configuration.DefaultSettingValueAttribute("Verdana")]
+        public string SelectedFont {
             get {
-                return ((string)(this["FontFamily"]));
+                return ((string)(this["SelectedFont"]));
             }
             set {
-                this["FontFamily"] = value;
+                this["SelectedFont"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public double FontSize {
+        public double Font {
             get {
-                return ((double)(this["FontSize"]));
+                return ((double)(this["Font"]));
             }
             set {
-                this["FontSize"] = value;
+                this["Font"] = value;
             }
         }
         

@@ -26,6 +26,17 @@ namespace Proiectie
 
             Functions.LoadSongs(this);
 
+            Song cantareCor = Functions.GetSongByTitle(this, "Cantare cor mixt");
+
+            if (cantareCor != null)
+            {
+                if (!_listaFavorite.Any(s => s.Title.Equals("Cantare cor mixt", StringComparison.OrdinalIgnoreCase)))
+                {
+                    _listaFavorite.Add(cantareCor);
+                }
+            }
+            lstFavOrIstoric.ItemsSource = _listaFavorite;
+
             this.Closing += (s, e) =>
             {
                 foreach (var window in _projectionWindows)
@@ -33,6 +44,13 @@ namespace Proiectie
                     window.Close();
                 }
             };
+
+            string fontName = Properties.Settings.Default.SelectedFont;
+            if (!string.IsNullOrEmpty(fontName))
+            {
+                txtLiveClockPreview.FontFamily = new System.Windows.Media.FontFamily(fontName);
+                txtLiveTextPreview.FontFamily = new System.Windows.Media.FontFamily(fontName);
+            }
         }
 
         private void SearchType_Changed(object sender, RoutedEventArgs e)
@@ -65,7 +83,11 @@ namespace Proiectie
 
                 foreach (var screen in screens)
                 {
-                    bool shouldProject = targetIds.Count > 0 ? targetIds.Contains(screen.DeviceName) : !screen.Primary;
+                    bool shouldProject;
+                    if (targetIds != null && targetIds.Count > 0)
+                        shouldProject = targetIds.Contains(screen.DeviceName);
+                    else
+                        shouldProject = !screen.Primary;
 
                     if (shouldProject)
                     {
@@ -129,7 +151,6 @@ namespace Proiectie
                 }
             }
         }
-
         private void lstCantari_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lstCantari.SelectedItem is Song selected)
@@ -158,6 +179,11 @@ namespace Proiectie
                 }
                 e.Handled = true; 
             }
+            else if (e.Key == Key.Escape)
+            {
+                txtLiveTextPreview.Text = "";
+                Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
+            }
         }
         private void lstStrofe_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -169,7 +195,7 @@ namespace Proiectie
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e) // Am schimbat în RoutedEventArgs
+        private void Delete_Click(object sender, RoutedEventArgs e) 
         {
             if (lstCantari.SelectedItem is Song selectata)
             {
@@ -234,7 +260,7 @@ namespace Proiectie
         }
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settings = new SettingsWindow();
+            SettingsWindow settings = new SettingsWindow(this);
             settings.Owner = this;
             if (settings.ShowDialog() == true || settings.IsActive == false)
             {
@@ -292,7 +318,6 @@ namespace Proiectie
         {
             if (e.Key == Key.F12)
             {
-                // i can do a cleaner function here
                 string clockTime;
                 if (txtLiveClockPreview.Text == "")
                     clockTime = Functions.SetClock(DateTime.Now.Hour.ToString(), DateTime.Now.Minute.ToString());
@@ -308,6 +333,21 @@ namespace Proiectie
                 }
 
                 txtLiveClockPreview.Text = clockTime;
+            }
+            if (e.Key == Key.Escape)
+            {
+                foreach (var window in _projectionWindows)
+                {
+                    if (window.IsLoaded)
+                    {
+                        window.SetText(""); 
+                    }
+                }
+
+                txtLiveTextPreview.Text = "-";
+
+
+                e.Handled = true;
             }
         }
         private void AddSong_Click(object sender, RoutedEventArgs e)

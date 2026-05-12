@@ -8,10 +8,10 @@
     <Setting Name="BackgroundImagePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FontFamily" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Arial</Value>
+    <Setting Name="SelectedFont" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Verdana</Value>
     </Setting>
-    <Setting Name="FontSize" Type="System.Double" Scope="User">
+    <Setting Name="Font" Type="System.Double" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="FontColor" Type="System.String" Scope="User">

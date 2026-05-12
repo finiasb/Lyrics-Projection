@@ -4,16 +4,14 @@
         Title="Ecran Proiectie" 
         Background="Black" 
         WindowStyle="None" 
-        WindowStartupLocation="Manual">
+        WindowStartupLocation="Manual"
+        Topmost="True">
     <Grid>
         <Image x:Name="imgBackground" Stretch="UniformToFill" />
+        <Border Background="Black" Opacity="0.3" />
 
-        <TextBlock x:Name="txtMain" Foreground="White" FontSize="60" FontWeight="Bold" 
-                   TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                   TextWrapping="Wrap" Margin="50"/>
+        <TextBlock x:Name="txtMain" Text="" Foreground="White" FontSize="70" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="40"/>
 
-        <TextBlock x:Name="txtClock" Foreground="White" FontSize="60" FontWeight="Bold" 
-           TextAlignment="Center" VerticalAlignment="Top"  HorizontalAlignment="Center" 
-           TextWrapping="Wrap" Margin="10"/>
+        <TextBlock x:Name="txtClock" Text="" Foreground="White" FontSize="60" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="20"/>
     </Grid>
 </Window>

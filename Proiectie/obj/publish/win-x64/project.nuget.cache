@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "7Ze2yQh/W5k546rHenk4bqRQVO6zruEZPcB6R28i+gACysKD8YOyAQJVlPpaPgj2FHujjVcfXS0N/AIn09CIzQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Fineas\\source\\repos\\Proiectie\\Proiectie\\Proiectie.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Fineas\\.nuget\\packages\\microsoft.data.sqlite\\10.0.7\\microsoft.data.sqlite.10.0.7.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\microsoft.data.sqlite.core\\10.0.7\\microsoft.data.sqlite.core.10.0.7.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.0\\microsoft.net.illink.tasks.8.0.0.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\sqlite\\3.13.0\\sqlite.3.13.0.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.11\\sqlitepclraw.bundle_e_sqlite3.2.1.11.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\sqlitepclraw.core\\2.1.11\\sqlitepclraw.core.2.1.11.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.11\\sqlitepclraw.lib.e_sqlite3.2.1.11.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.11\\sqlitepclraw.provider.e_sqlite3.2.1.11.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\system.data.sqlite\\2.0.3\\system.data.sqlite.2.0.3.nupkg.sha512",
+    "C:\\Users\\Fineas\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Collections.ObjectModel;
+using System.Data.SQLite;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -70,11 +71,16 @@ namespace Proiectie
         {
             window.lblSelectedAuthor.Text = "Autor: " + (string.IsNullOrWhiteSpace(selected.Author) ? "Anonim" : selected.Author);
             window.lblSelectedTitle.Text = selected.Title;
-            var strofe = Regex.Split(selected.Verses, @"(?=\d+\.)|(?:\r?\n){2,}")
+
+            string cleanedVerses = Regex.Replace(selected.Verses, @"^(?:I:|O:).*$", "", RegexOptions.Multiline).Trim();
+
+            var strofe = Regex.Split(cleanedVerses, @"(?=\d+\.)|(?:\r?\n){2,}")
                               .Select(s => s.Trim())
                               .Where(s => !string.IsNullOrWhiteSpace(s))
-                              .Where(s => !s.StartsWith("I:"))
-                              .Where(s => !s.StartsWith("O:"))
+                              .Where(s => s.Length > 5)
+                              .Where(s => !s.Contains("Text:"))
+                              .Where(s => s.Any(char.IsLetter))
+                              .Where(s => !Regex.IsMatch(s, @"^\d{4}$"))
                               .ToList();
             window.lstStrofe.ItemsSource = strofe;
         }
@@ -120,6 +126,35 @@ namespace Proiectie
             }
 
             window.MonitorsList.ItemsSource = options;
+        }
+        public static Song GetSongByTitle(MainWindow window, string title)
+        {
+            Song foundSong = null;
+
+            using (SQLiteConnection conn = new SQLiteConnection(window._connectionString))
+            {
+                conn.Open();
+                string query = "SELECT * FROM Cantece WHERE titlu = @title LIMIT 1";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@title", title);
+
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            foundSong = new Song
+                            {
+                                Title = reader["titlu"].ToString(),
+                                Verses = reader["versuri"].ToString(),
+                                Author = reader["autor"] != DBNull.Value ? reader["autor"].ToString() : "-"
+                            };
+                        }
+                    }
+                }
+            }
+            return foundSong;
         }
         public static void UpdateBackground(System.Windows.Controls.Image controlImagine)
         {
