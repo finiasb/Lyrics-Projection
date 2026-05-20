@@ -15,7 +15,7 @@ namespace Proiectie
             cmbFonts.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
 
             txtImagePath.Text = Properties.Settings.Default.BackgroundImagePath;
-
+            chkShowTracker.IsChecked = Properties.Settings.Default.ShowVerseTracker;
             string savedFont = Properties.Settings.Default.SelectedFont;
             if (!string.IsNullOrEmpty(savedFont))
             {
@@ -44,6 +44,8 @@ namespace Proiectie
             }
             Properties.Settings.Default.BackgroundImagePath = txtImagePath.Text;
             Properties.Settings.Default.SavedMonitors = collection;
+            Properties.Settings.Default.ShowVerseTracker = chkShowTracker.IsChecked == true;
+
             Properties.Settings.Default.Save();
 
             string fontName = Properties.Settings.Default.SelectedFont;

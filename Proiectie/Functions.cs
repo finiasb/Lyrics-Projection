@@ -86,18 +86,69 @@ namespace Proiectie
             window.lstStrofe.ItemsSource = strofe;
         }
 
-        public static void SendLive(MainWindow window, List<ProjectionWindow> _projectionWindows, Song lastSongSelected, ObservableCollection<Song> _listaIstoric, object selectedItem)
+        public static void SendLive(MainWindow window, List<ProjectionWindow> _projectionWindows, Song lastSongSelected, System.Collections.ObjectModel.ObservableCollection<Song> _listaIstoric, object selectedItem)
         {
             if (selectedItem == null) return;
 
             string textStrofa = selectedItem.ToString();
             window.txtLiveTextPreview.Text = textStrofa;
 
+            List<VerseIndicatorItem> listaIndicatori = new List<VerseIndicatorItem>();
+            bool trackerEsteActiv = Properties.Settings.Default.ShowVerseTracker;
+
+            if (trackerEsteActiv && lastSongSelected != null && !string.IsNullOrWhiteSpace(lastSongSelected.Verses))
+            {
+                string textStrofaActiva = textStrofa.Trim();
+
+                var toateStrofele = System.Text.RegularExpressions.Regex.Split(lastSongSelected.Verses, @"(?=\d+\.)|(?:\r?\n){2,}")
+                                    .Select(s => s.Trim())
+                                    .Where(s => !string.IsNullOrWhiteSpace(s) && s.Length > 5 && !s.Contains("Text:") && !s.Contains("Compozitor:") && s.Any(char.IsLetter) && !s.StartsWith("I:") && !s.StartsWith("O:"))
+                                    .ToList();
+
+                int indexRezerva = 1;
+
+                foreach (var str in toateStrofele)
+                {
+                    string label = "";
+
+                    var matchPrefix = System.Text.RegularExpressions.Regex.Match(str, @"^([a-zA-Z0-9]{1,4})\s*([.:\-])");
+
+                    if (matchPrefix.Success)
+                    {
+                        label = matchPrefix.Groups[1].Value + ".";
+                    }
+                    else
+                    {
+                        label = $"{indexRezerva}.";
+                        indexRezerva++;
+                    }
+
+                    bool esteActiva = (str == textStrofaActiva);
+
+                    listaIndicatori.Add(new VerseIndicatorItem
+                    {
+                        Label = label,
+                        IsActive = esteActiva
+                    });
+                }
+            }
+
             foreach (var _projWindow in _projectionWindows)
             {
                 if (_projWindow.IsLoaded)
                 {
                     _projWindow.SetText(textStrofa);
+
+                    if (trackerEsteActiv)
+                    {
+                        _projWindow.VerseTrackerControl.Visibility = System.Windows.Visibility.Visible;
+                        _projWindow.VerseTrackerControl.ItemsSource = null; 
+                        _projWindow.VerseTrackerControl.ItemsSource = listaIndicatori;
+                    }
+                    else
+                    {
+                        _projWindow.VerseTrackerControl.Visibility = System.Windows.Visibility.Collapsed;
+                    }
                 }
             }
 
@@ -184,6 +235,15 @@ namespace Proiectie
             {
                 controlImagine.Source = null;
             }
+        }
+        public class VerseIndicatorItem
+        {
+            public string Label { get; set; }
+            public bool IsActive { get; set; }
+
+            public System.Windows.Thickness BorderThicknessThickness => IsActive ? new System.Windows.Thickness(3) : new System.Windows.Thickness(1);
+            public string BackgroundColorString => IsActive ? "#007ACC" : "#33000000"; 
+            public string ForegroundColorString => IsActive ? "#FFFFFF" : "#88FFFFFF";
         }
         public static string SetClock(string hour, string minute)
         {

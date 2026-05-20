@@ -81,5 +81,17 @@ namespace Proiectie.Properties {
                 this["FontColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowVerseTracker {
+            get {
+                return ((bool)(this["ShowVerseTracker"]));
+            }
+            set {
+                this["ShowVerseTracker"] = value;
+            }
+        }
     }
 }
