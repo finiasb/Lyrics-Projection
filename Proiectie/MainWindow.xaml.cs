@@ -239,10 +239,6 @@ namespace Proiectie
                 }
             }
         }
-        private void lstStrofe_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (lstCantari.SelectedItem is Song selectata)
@@ -333,6 +329,31 @@ namespace Proiectie
                 }
 
                 txtLiveClockPreview.Text = clockTime;
+            }
+            if (e.Key == Key.F1)
+            {
+                txtSearch.Focus();
+            }
+            if (e.Key == Key.F2)
+            {
+                if (lstCantari.Items.Count > 0)
+                {
+                    lstCantari.SelectedIndex = 0;
+
+                    if (lstCantari.SelectedItem is Song primaCantare)
+                    {
+                        Functions.LoadSongDetails(this, primaCantare);
+                        lastSongSelected = primaCantare;
+
+                        if (lstStrofe.Items.Count > 0)
+                        {
+                            lstStrofe.SelectedIndex = 0;
+                            Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
+                            lstStrofe.Focus();
+                        }
+                    }
+                }
+                e.Handled = true;
             }
             if (e.Key == Key.Escape)
             {

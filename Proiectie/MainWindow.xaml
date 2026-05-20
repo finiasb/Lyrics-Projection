@@ -97,7 +97,7 @@
                 <TextBlock x:Name="lblSelectedTitle" Text="Nicio cântare selectată" Foreground="White" FontSize="28" FontWeight="Light" TextTrimming="CharacterEllipsis"/>
             </DockPanel>
 
-            <ListBox x:Name="lstStrofe" Grid.Row="1" Background="Transparent" VirtualizingStackPanel.IsVirtualizing="False" BorderThickness="0" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True"           KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown" SelectionChanged="lstStrofe_SelectionChanged" Margin="0,15,0,0">
+            <ListBox x:Name="lstStrofe" Grid.Row="1" Background="Transparent" VirtualizingStackPanel.IsVirtualizing="False" BorderThickness="0" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True"           KeyDown="lstStrofe_KeyDown" PreviewMouseDown="lstStrofe_PreviewMouseDown" Margin="0,15,0,0">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Background" Value="Transparent"/>
