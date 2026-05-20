@@ -77,7 +77,7 @@ namespace Proiectie {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Proiectie;V1.0.0.0;component/addsongwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Proiectie;component/addsongwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\AddSongWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

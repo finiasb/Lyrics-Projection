@@ -362,13 +362,10 @@ namespace Proiectie
 
         private void OpenEditPage_Click(object sender, RoutedEventArgs e)
         {
-            EditSongWindow EditSong = new EditSongWindow(lastSongSelected);
+            EditSongWindow EditSong = new EditSongWindow(this, _projectionWindows,  _listaIstoric, lastSongSelected, lstStrofe.SelectedItem);
             EditSong.Owner = this;
             if(EditSong.ShowDialog() == true)
             {
-                txtSearch.Text = "";
-                lstStrofe.ItemsSource = null;
-                Functions.LoadSongs(this);
             }
         }
     }

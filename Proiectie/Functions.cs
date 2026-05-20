@@ -79,6 +79,7 @@ namespace Proiectie
                               .Where(s => !string.IsNullOrWhiteSpace(s))
                               .Where(s => s.Length > 5)
                               .Where(s => !s.Contains("Text:"))
+                              .Where(s => !s.Contains("Compozitor:"))
                               .Where(s => s.Any(char.IsLetter))
                               .Where(s => !Regex.IsMatch(s, @"^\d{4}$"))
                               .ToList();

@@ -12,19 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Data.SQLite;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace Proiectie
 {
-    /// <summary>
-    /// Interaction logic for EditSongWindow.xaml
-    /// </summary>
     public partial class EditSongWindow : Window
     {
         Song song;
-        public EditSongWindow(Song song)
+        MainWindow window;
+        private List<ProjectionWindow> _projectionWindows = new List<ProjectionWindow>();
+        private ObservableCollection<Song> _listaIstoric = new ObservableCollection<Song>();
+        object strofa; 
+        public EditSongWindow(MainWindow window, List<ProjectionWindow> _projectionWindowsm, ObservableCollection<Song> _listaIstoric, Song song, object strofa)
         {
             InitializeComponent();
             this.song = song;
+            this.strofa = strofa;
+            this._listaIstoric = _listaIstoric;
+            this.window = window;
+            this._projectionWindows = _projectionWindowsm;
             if(song != null )
             {
                 txtNewAuthor.Text = song.Author;
@@ -39,8 +45,65 @@ namespace Proiectie
                 };
             }
         }
+        private void SaveLocal_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string textNouComplet = txtNewContent.Text.Trim();
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+                Song cantarelocal = new Song
+                {
+                    Id = song != null ? song.Id : 0,
+                    Title = txtNewTitle.Text.Trim(),
+                    Verses = textNouComplet,
+                    Author = txtNewAuthor.Text.Trim()
+                };
+
+                object strofaDeTrimisLive = strofa; 
+
+                if (strofa != null && !string.IsNullOrWhiteSpace(textNouComplet))
+                {
+                    string textStrofaVeche = strofa.ToString().Trim();
+
+                    var strofeNoi = System.Text.RegularExpressions.Regex.Split(textNouComplet, @"(?=\d+\.)|(?:\r?\n){2,}")
+                                        .Select(s => s.Trim())
+                                        .Where(s => !string.IsNullOrWhiteSpace(s))
+                                        .Where(s => s.Length > 5)
+                                        .Where(s => !s.Contains("Text:"))
+                                        .Where(s => !s.Contains("Compozitor:"))
+                                        .Where(s => s.Any(char.IsLetter))
+                                        .Where(s => !System.Text.RegularExpressions.Regex.IsMatch(s, @"^\d{4}$"))
+                                        .ToList();
+
+                    int indexStrofaVeche = window.lstStrofe.Items.IndexOf(strofa);
+
+                    if (indexStrofaVeche >= 0 && indexStrofaVeche < strofeNoi.Count)
+                    {
+                        strofaDeTrimisLive = strofeNoi[indexStrofaVeche];
+                    }
+                }
+
+                Functions.LoadSongDetails(window, cantarelocal);
+
+                if (window.lstStrofe.Items.Count > 0 && window.lstStrofe.Items.Contains(strofaDeTrimisLive))
+                {
+                    window.lstStrofe.SelectedItem = strofaDeTrimisLive;
+                }
+
+                Functions.SendLive(window, _projectionWindows, cantarelocal, _listaIstoric, strofaDeTrimisLive);
+
+                System.Windows.Forms.MessageBox.Show("Cântare actualizată live cu succes!");
+
+                this.DialogResult = true;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Eroare la salvarea locală: " + ex.Message);
+            }
+        }
+
+        private void SaveGlobal_Click(object sender, RoutedEventArgs e)
         {
             string titluNou = txtNewTitle.Text.Trim();
             string autorNou = txtNewAuthor.Text.Trim();
@@ -59,7 +122,41 @@ namespace Proiectie
             {
                 UpdateSongInDatabase(song.Id, titluNou, versuriNoi, autorNou, titluNorm, versuriNorm);
 
-                System.Windows.Forms.MessageBox.Show("Cântare actualizată cu succes!");
+                object strofaDeTrimisLive = strofa;
+                if (strofa != null)
+                {
+                    var strofeNoi = System.Text.RegularExpressions.Regex.Split(versuriNoi, @"(?=\d+\.)|(?:\r?\n){2,}")
+                                        .Select(s => s.Trim())
+                                        .Where(s => !string.IsNullOrWhiteSpace(s))
+                                        .Where(s => s.Length > 5)
+                                        .Where(s => !s.Contains("Text:"))
+                                        .Where(s => !s.Contains("Compozitor:"))
+                                        .Where(s => s.Any(char.IsLetter))
+                                        .Where(s => !System.Text.RegularExpressions.Regex.IsMatch(s, @"^\d{4}$"))
+                                        .ToList();
+
+                    int indexStrofaVeche = window.lstStrofe.Items.IndexOf(strofa);
+
+                    if (indexStrofaVeche >= 0 && indexStrofaVeche < strofeNoi.Count)
+                    {
+                        strofaDeTrimisLive = strofeNoi[indexStrofaVeche];
+                    }
+                }
+
+                song.Title = titluNou;
+                song.Verses = versuriNoi;
+                song.Author = autorNou;
+
+                Functions.LoadSongDetails(window, song);
+
+                if (window.lstStrofe.Items.Count > 0 && window.lstStrofe.Items.Contains(strofaDeTrimisLive))
+                {
+                    window.lstStrofe.SelectedItem = strofaDeTrimisLive;
+                }
+
+                Functions.SendLive(window, _projectionWindows, song, _listaIstoric, strofaDeTrimisLive);
+
+                System.Windows.Forms.MessageBox.Show("Cântare salvată în baza de date și actualizată live!");
 
                 this.DialogResult = true;
                 this.Close();
