@@ -93,5 +93,29 @@ namespace Proiectie.Properties {
                 this["ShowVerseTracker"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public double txtFontSize {
+            get {
+                return ((double)(this["txtFontSize"]));
+            }
+            set {
+                this["txtFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public double clockFontSize {
+            get {
+                return ((double)(this["clockFontSize"]));
+            }
+            set {
+                this["clockFontSize"] = value;
+            }
+        }
     }
 }

@@ -16,6 +16,14 @@ namespace Proiectie
                 txtClock.FontFamily = new System.Windows.Media.FontFamily(fontName);
                 txtMain.FontFamily = new System.Windows.Media.FontFamily(fontName);
             }
+
+            double savedFontSize = Properties.Settings.Default.txtFontSize;
+            double savedClockFontSize = Properties.Settings.Default.clockFontSize;
+            if (savedFontSize > 0 && savedClockFontSize > 0)
+            {
+                txtMain.FontSize = savedFontSize;
+                txtClock.FontSize = savedClockFontSize;
+            }
         }
         public void SetText(string textCurent)
         {

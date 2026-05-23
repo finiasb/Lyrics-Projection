@@ -97,6 +97,12 @@ namespace Proiectie
                         window.Width = screen.Bounds.Width;
                         window.Height = screen.Bounds.Height;
 
+                        if (Properties.Settings.Default.txtFontSize > 0 && Properties.Settings.Default.clockFontSize > 0)
+                        {
+                            window.txtMain.FontSize = Properties.Settings.Default.txtFontSize;
+                            window.txtClock.FontSize = Properties.Settings.Default.clockFontSize;
+                        }
+
                         window.Show();
                         window.WindowState = WindowState.Maximized;
                         window.txtClock.Text = txtLiveClockPreview.Text;
@@ -256,7 +262,7 @@ namespace Proiectie
         }
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settings = new SettingsWindow(this);
+            SettingsWindow settings = new SettingsWindow(this, _projectionWindows);
             settings.Owner = this;
             if (settings.ShowDialog() == true || settings.IsActive == false)
             {
