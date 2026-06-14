@@ -15,20 +15,25 @@ namespace Proiectie
             Functions.LoadMonitors(this);
             mw = window;
             this._projectionWindows = _projectionWindows;
-            cmbFonts.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
+
+
+            var lista = new[] { "Arial", "Book Antiqua", "Calibri", "Century Gothic", "Consolas", "Courier New", "Franklin Gothic", "Georgia", "Impact", "JetBrains Mono", "Sagoe UI", "Times New Roman", "Arial", };
+
+            var fonturiSigureFiltrate = Fonts.SystemFontFamilies.Where(f => f.Source != null && lista.Any(dorit => f.Source.Equals(dorit, StringComparison.OrdinalIgnoreCase))).OrderBy(f => f.Source).ToList();
+
+            cmbFonts.ItemsSource = fonturiSigureFiltrate;
 
             txtImagePath.Text = Properties.Settings.Default.BackgroundImagePath;
             chkShowTracker.IsChecked = Properties.Settings.Default.ShowVerseTracker;
             txtFontSize.Text = Properties.Settings.Default.txtFontSize.ToString();
             txtClockFontSize.Text = Properties.Settings.Default.clockFontSize.ToString();
+
             string savedFont = Properties.Settings.Default.SelectedFont;
-            if (!string.IsNullOrEmpty(savedFont))
+            var fontPotrivit = fonturiSigureFiltrate.FirstOrDefault(f => f.Source == savedFont);
+
+            if (fontPotrivit != null)
             {
-                cmbFonts.SelectedItem = Fonts.SystemFontFamilies.FirstOrDefault(f => f.Source == savedFont);
-            }
-            else
-            {
-                cmbFonts.SelectedIndex = 0; 
+                cmbFonts.SelectedItem = fontPotrivit;
             }
         }
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -76,6 +81,25 @@ namespace Proiectie
 
             this.DialogResult = true; 
             this.Close();
+        }
+
+        private void Shortcuts_Click(object sender, RoutedEventArgs e)
+        {
+            string mesajShortcuts = "Scurtături Tastatură Aplicație:\n\n" +
+                                    "F1\t\t-> Pune cursorul în caseta de căutare\n" +
+                                    "F2\t\t-> Afișează prima cântare din listă\n" +
+                                    "F12\t\t-> Afișează / Ascunde ceasul pe proiecție\n" +
+                                    "Enter (în căutare)\t-> Trece focusul pe lista de cântări\n" +
+                                    "Enter (în cântări)\t-> Selectează prima strofă din cântare\n" +
+                                    "Enter (în strofe)\t-> Trimite strofa selectată live pe ecran\n" +
+                                    "Escape\t\t-> Șterge textul de pe ecran";
+
+            System.Windows.MessageBox.Show(
+                mesajShortcuts,
+                "Ghid Scurtături",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information
+            );
         }
 
         private void SelectImage_Click(object sender, RoutedEventArgs e)

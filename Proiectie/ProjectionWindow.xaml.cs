@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 
 namespace Proiectie
@@ -25,9 +27,41 @@ namespace Proiectie
                 txtClock.FontSize = savedClockFontSize;
             }
         }
+
+        public void SetTextCuStil(string textStrofa, bool esteUltimaStrofa, bool trackerActiv)
+        {
+            txtMain.Inlines.Clear(); 
+
+            if (string.IsNullOrEmpty(textStrofa)) return;
+
+            var matchPrefix = Regex.Match(textStrofa, @"^([0-9]{1,4}\s*[.:\-]?\s*)");
+
+            if (matchPrefix.Success && esteUltimaStrofa && trackerActiv)
+            {
+                string prefix = matchPrefix.Groups[1].Value;
+                string restulTextului = textStrofa.Substring(prefix.Length);
+
+                Run runPrefix = new Run(prefix);
+                runPrefix.Foreground = System.Windows.Media.Brushes.Orange; 
+
+                Run runRest = new Run(restulTextului);
+                runRest.Foreground = System.Windows.Media.Brushes.White;
+
+                txtMain.Inlines.Add(runPrefix);
+                txtMain.Inlines.Add(runRest);
+            }
+            else
+            {
+                Run runNormal = new Run(textStrofa);
+                runNormal.Foreground = System.Windows.Media.Brushes.White;
+                txtMain.Inlines.Add(runNormal);
+            }
+        }
+
         public void SetText(string textCurent)
         {
-            Dispatcher.Invoke(() => {
+            Dispatcher.Invoke(() =>
+            {
                 txtMain.Text = textCurent;
             });
         }

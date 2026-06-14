@@ -14,32 +14,5 @@
 
         <TextBlock x:Name="txtClock" Text="" Foreground="White" FontSize="60" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="20"/>
 
-        <ItemsControl x:Name="VerseTrackerControl" 
-              HorizontalAlignment="Right" 
-              VerticalAlignment="Bottom" 
-              Margin="0,0,30,30"
-              Visibility="Collapsed">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border x:Name="IndicatorBorder" 
-                    BorderBrush="#007ACC" 
-                    BorderThickness="{Binding BorderThicknessThickness}" 
-                    Background="{Binding BackgroundColorString}"
-                    CornerRadius="6" 
-                    Margin="5" 
-                    Padding="10,5">
-                        <TextBlock Text="{Binding Label}" 
-                           Foreground="{Binding ForegroundColorString}" 
-                           FontSize="24" 
-                           FontWeight="Bold"/>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
     </Grid>
 </Window>

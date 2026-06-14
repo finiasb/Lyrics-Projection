@@ -109,8 +109,20 @@ namespace Proiectie
                         _projectionWindows.Add(window);
 
                         Functions.UpdateBackground(window.imgBackground);
+                        bool trackerEsteActiv = Properties.Settings.Default.ShowVerseTracker;
+
                         if (txtLiveTextPreview.Text != "- MUTE -" && txtLiveTextPreview.Text != "PROIECȚIE ACTIVĂ" && txtLiveTextPreview.Text != "PROIECȚIE OPRITĂ" && txtLiveTextPreview.Text != "-")
-                            window.SetText(txtLiveTextPreview.Text);
+                        {
+                            bool esteUltima = false;
+                            if (lstStrofe.Items.Count > 0 && lstStrofe.SelectedItem != null)
+                            {
+                                if (lstStrofe.SelectedItem.ToString() == lstStrofe.Items[lstStrofe.Items.Count - 1].ToString())
+                                {
+                                    esteUltima = true;
+                                }
+                            }
+                            window.SetTextCuStil(txtLiveTextPreview.Text, esteUltima, trackerEsteActiv);
+                        }
                     }
                 }
 
