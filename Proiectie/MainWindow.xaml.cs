@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Data.SQLite;
+using static System.Net.Mime.MediaTypeNames;
 namespace Proiectie
 {
     public partial class MainWindow : Window
@@ -114,13 +115,35 @@ namespace Proiectie
                         if (txtLiveTextPreview.Text != "- MUTE -" && txtLiveTextPreview.Text != "PROIECȚIE ACTIVĂ" && txtLiveTextPreview.Text != "PROIECȚIE OPRITĂ" && txtLiveTextPreview.Text != "-")
                         {
                             bool esteUltima = false;
+
                             if (lstStrofe.Items.Count > 0 && lstStrofe.SelectedItem != null)
                             {
-                                if (lstStrofe.SelectedItem.ToString() == lstStrofe.Items[lstStrofe.Items.Count - 1].ToString())
+                                int celMaiMareNumarGasit = 0;
+                                foreach (var item in lstStrofe.Items)
                                 {
-                                    esteUltima = true;
+                                    if (item == null) continue;
+                                    var matchItem = System.Text.RegularExpressions.Regex.Match(item.ToString().Trim(), @"^([0-9]+)");
+                                    if (matchItem.Success)
+                                    {
+                                        int numarItem = int.Parse(matchItem.Groups[1].Value);
+                                        if (numarItem > celMaiMareNumarGasit)
+                                        {
+                                            celMaiMareNumarGasit = numarItem;
+                                        }
+                                    }
+                                }
+
+                                var matchSelectat = System.Text.RegularExpressions.Regex.Match(lstStrofe.SelectedItem.ToString().Trim(), @"^([0-9]+)");
+                                if (matchSelectat.Success)
+                                {
+                                    int numarStrofaSelectata = int.Parse(matchSelectat.Groups[1].Value);
+                                    if (numarStrofaSelectata == celMaiMareNumarGasit && celMaiMareNumarGasit > 0)
+                                    {
+                                        esteUltima = true;
+                                    }
                                 }
                             }
+
                             window.SetTextCuStil(txtLiveTextPreview.Text, esteUltima, trackerEsteActiv);
                         }
                     }
@@ -366,7 +389,7 @@ namespace Proiectie
                         if (lstStrofe.Items.Count > 0)
                         {
                             lstStrofe.SelectedIndex = 0;
-                            Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
+                            // Obținem indexul real al elementului apăsat înainte ca ListBox-ul să își schimbe starea internă
                             lstStrofe.Focus();
                         }
                     }
@@ -386,6 +409,38 @@ namespace Proiectie
                 txtLiveTextPreview.Text = "-";
 
 
+                e.Handled = true;
+            }
+            if (e.Key == Key.F3)
+            {
+                var sourceCollection = lstStrofe.ItemsSource as ObservableCollection<string>;
+
+                if (sourceCollection != null && sourceCollection.Count > 0)
+                {
+                    bool aFostModificat = false;
+
+                    for (int i = sourceCollection.Count - 1; i >= 0; i--)
+                    {
+                        string strofaCurenta = sourceCollection[i];
+                        if (string.IsNullOrEmpty(strofaCurenta)) continue;
+
+                        string[] randuri = strofaCurenta.Replace("\r", "").Split('\n');
+                        int nrRanduri = randuri.Length;
+
+                        if (nrRanduri >= 8)
+                        {
+                            int mijloc = nrRanduri / 2;
+
+                            string primaStrofa = string.Join("\n", randuri.Take(mijloc));
+                            string aDouaStrofa = string.Join("\n", randuri.Skip(mijloc));
+
+                            sourceCollection[i] = primaStrofa;
+                            sourceCollection.Insert(i + 1, aDouaStrofa);
+
+                            aFostModificat = true;
+                        }
+                    }
+                }
                 e.Handled = true;
             }
         }

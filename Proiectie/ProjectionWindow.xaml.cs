@@ -35,7 +35,6 @@ namespace Proiectie
             if (string.IsNullOrEmpty(textStrofa)) return;
 
             var matchPrefix = Regex.Match(textStrofa, @"^([0-9]{1,4}\s*[.:\-]?\s*)");
-
             if (matchPrefix.Success && esteUltimaStrofa && trackerActiv)
             {
                 string prefix = matchPrefix.Groups[1].Value;

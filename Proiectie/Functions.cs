@@ -83,7 +83,8 @@ namespace Proiectie
                               .Where(s => s.Any(char.IsLetter))
                               .Where(s => !Regex.IsMatch(s, @"^\d{4}$"))
                               .ToList();
-            window.lstStrofe.ItemsSource = strofe;
+
+            window.lstStrofe.ItemsSource = new ObservableCollection<string>(strofe);
         }
 
         public static void SendLive(MainWindow window, List<ProjectionWindow> _projectionWindows, Song lastSongSelected, System.Collections.ObjectModel.ObservableCollection<Song> _listaIstoric, object selectedItem)
@@ -95,13 +96,36 @@ namespace Proiectie
 
             bool trackerEsteActiv = Properties.Settings.Default.ShowVerseTracker;
             bool esteUltima = false;
+
             if (window.lstStrofe.Items.Count > 0)
             {
-                string ultimaStrofaCuCifra = window.lstStrofe.Items.Cast<object>().Select(x => x.ToString()).LastOrDefault(s => System.Text.RegularExpressions.Regex.IsMatch(s.Trim(), @"^[0-9]"));
+                int indexCurent = window.lstStrofe.SelectedIndex;
+                int totalStrofe = window.lstStrofe.Items.Count;
 
-                if (textStrofa == ultimaStrofaCuCifra)
+                int celMaiMareNumarGasit = 0;
+                foreach (var item in window.lstStrofe.Items)
                 {
-                    esteUltima = true;
+                    if (item == null) continue;
+                    var matchItem = Regex.Match(item.ToString().Trim(), @"^([0-9]+)");
+                    if (matchItem.Success)
+                    {
+                        int numarItem = int.Parse(matchItem.Groups[1].Value);
+                        if (numarItem > celMaiMareNumarGasit)
+                        {
+                            celMaiMareNumarGasit = numarItem;
+                        }
+                    }
+                }
+                var matchCurent = Regex.Match(textStrofa.Trim(), @"^([0-9]+)");
+
+                if (matchCurent.Success)
+                {
+                    int numarStrofaCurenta = int.Parse(matchCurent.Groups[1].Value);
+
+                    if (numarStrofaCurenta == celMaiMareNumarGasit && celMaiMareNumarGasit > 0)
+                    {
+                        esteUltima = true;
+                    }
                 }
             }
 
