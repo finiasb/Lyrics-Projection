@@ -117,7 +117,7 @@ namespace Proiectie
                     }
                 }
                 var matchCurent = Regex.Match(textStrofa.Trim(), @"^([0-9]+)");
-
+                    
                 if (matchCurent.Success)
                 {
                     int numarStrofaCurenta = int.Parse(matchCurent.Groups[1].Value);

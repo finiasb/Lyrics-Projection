@@ -427,7 +427,7 @@ namespace Proiectie
                         string[] randuri = strofaCurenta.Replace("\r", "").Split('\n');
                         int nrRanduri = randuri.Length;
 
-                        if (nrRanduri >= 8)
+                        if (nrRanduri >= 6)
                         {
                             int mijloc = nrRanduri / 2;
 
