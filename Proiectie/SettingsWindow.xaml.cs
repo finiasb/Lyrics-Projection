@@ -86,11 +86,13 @@ namespace Proiectie
 
         private void Shortcuts_Click(object sender, RoutedEventArgs e)
         {
-            string mesajShortcuts = "Scurtături Tastatură Aplicație:\n\n" +
+            string mesajShortcuts = "Scurtături tastatură aplicație:\n\n" +
                                     "F1\t\t-> Pune cursorul în caseta de căutare\n" +
                                     "F2\t\t-> Afișează prima cântare din listă\n" +
                                     "F3\t\t-> Împarte strofele în două părți(>= 6)\n" + 
                                     "F12\t\t-> Afișează / Ascunde ceasul pe proiecție\n" +
+                                    "+\t\t-> Crește mărimea fontului cu 2\n" +
+                                    "-\t\t-> Scade mărimea fontului cu 2\n" +
                                     "Enter (în căutare)\t-> Trece focusul pe lista de cântări\n" +
                                     "Enter (în cântări)\t-> Selectează prima strofă din cântare\n" +
                                     "Enter (în strofe)\t-> Trimite strofa selectată live pe ecran\n" +
