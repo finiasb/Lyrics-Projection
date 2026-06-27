@@ -389,7 +389,6 @@ namespace Proiectie
                         if (lstStrofe.Items.Count > 0)
                         {
                             lstStrofe.SelectedIndex = 0;
-                            // Obținem indexul real al elementului apăsat înainte ca ListBox-ul să își schimbe starea internă
                             lstStrofe.Focus();
                         }
                     }
@@ -442,6 +441,33 @@ namespace Proiectie
                     }
                 }
                 e.Handled = true;
+            }
+            if(e.Key == Key.OemPlus)
+            {
+                int fontSizeText = (int)Properties.Settings.Default.txtFontSize;
+                fontSizeText += 2;
+                Properties.Settings.Default.txtFontSize = fontSizeText;
+                Properties.Settings.Default.Save();
+
+                foreach (var window in _projectionWindows)
+                {
+                    window.txtMain.FontSize = fontSizeText;
+                }
+            }
+            if (e.Key == Key.OemMinus)
+            {
+                int fontSizeText = (int)Properties.Settings.Default.txtFontSize;
+                if(fontSizeText >= 4)
+                {
+                    fontSizeText -= 2;
+                    Properties.Settings.Default.txtFontSize = fontSizeText;
+                    Properties.Settings.Default.Save();
+
+                    foreach (var window in _projectionWindows)
+                    {
+                        window.txtMain.FontSize = fontSizeText;
+                    }
+                }
             }
         }
         private void AddSong_Click(object sender, RoutedEventArgs e)
