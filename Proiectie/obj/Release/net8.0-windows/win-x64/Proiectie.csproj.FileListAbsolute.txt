@@ -11,8 +11,6 @@ C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Release\net8.0-windows\win-
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Release\net8.0-windows\win-x64\System.Data.SQLite.dll
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\bin\Release\net8.0-windows\win-x64\e_sqlite3.dll
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Release\net8.0-windows\win-x64\Proiectie.csproj.AssemblyReference.cache
-C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Release\net8.0-windows\win-x64\Interop.Accessibility.dll
-C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Release\net8.0-windows\win-x64\Proiectie.csproj.ResolveComReference.cache
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Release\net8.0-windows\win-x64\AddSongWindow.baml
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Release\net8.0-windows\win-x64\EditSongWindow.baml
 C:\Users\Fineas\source\repos\Proiectie\Proiectie\obj\Release\net8.0-windows\win-x64\MainWindow.baml

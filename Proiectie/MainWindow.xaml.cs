@@ -15,10 +15,16 @@ namespace Proiectie
         private List<ProjectionWindow> _projectionWindows = new List<ProjectionWindow>();
         Song lastSongSelected;
         public string _connectionString = $"Data Source={System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cantece.db")}";
+        private System.Windows.Threading.DispatcherTimer _clockTimer;
+        private bool _isClockVisible = false;
         public MainWindow()
         {
             InitializeComponent();
 
+            _clockTimer = new System.Windows.Threading.DispatcherTimer();
+            _clockTimer.Interval = TimeSpan.FromSeconds(1);
+            _clockTimer.Tick += ClockTimer_Tick;
+            _clockTimer.Start();
             Functions.UpdateBackground(this.imgPreviewBackground);
 
             if (Properties.Settings.Default.SavedMonitors != null)
@@ -54,7 +60,23 @@ namespace Proiectie
                 txtLiveTextPreview.FontFamily = new System.Windows.Media.FontFamily(fontName);
             }
         }
+        private void ClockTimer_Tick(object sender, EventArgs e)
+        {
+            if (_isClockVisible)
+            {
+                string clockTime = Functions.SetClock(DateTime.Now.Hour.ToString(), DateTime.Now.Minute.ToString());
 
+                txtLiveClockPreview.Text = clockTime;
+
+                foreach (var window in _projectionWindows)
+                {
+                    if (window.IsLoaded)
+                    {
+                        window.txtClock.Text = clockTime;
+                    }
+                }
+            }
+        }
         private void SearchType_Changed(object sender, RoutedEventArgs e)
         {
             if (txtSearch != null)
@@ -397,21 +419,24 @@ namespace Proiectie
         {
             if (e.Key == Key.F12)
             {
-                string clockTime;
-                if (txtLiveClockPreview.Text == "")
-                    clockTime = Functions.SetClock(DateTime.Now.Hour.ToString(), DateTime.Now.Minute.ToString());
-                else
-                    clockTime = Functions.SetClock("", "");
+                _isClockVisible = !_isClockVisible;
 
-                foreach (var window in _projectionWindows)
+                if (_isClockVisible)
                 {
-                    if (window.IsLoaded)
+                    ClockTimer_Tick(null, null);
+                }
+                else
+                {
+                    txtLiveClockPreview.Text = "";
+                    foreach (var window in _projectionWindows)
                     {
-                        window.txtClock.Text = clockTime;
+                        if (window.IsLoaded)
+                        {
+                            window.txtClock.Text = "";
+                        }
                     }
                 }
-
-                txtLiveClockPreview.Text = clockTime;
+                e.Handled = true;
             }
             if (e.Key == Key.F1)
             {
