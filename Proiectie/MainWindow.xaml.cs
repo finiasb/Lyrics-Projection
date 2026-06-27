@@ -230,8 +230,17 @@ namespace Proiectie
             }
             else if (e.Key == Key.Escape)
             {
-                txtLiveTextPreview.Text = "";
-                Functions.SendLive(this, _projectionWindows, lastSongSelected, _listaIstoric, lstStrofe.SelectedItem);
+                foreach (var window in _projectionWindows)
+                {
+                    if (window.IsLoaded)
+                    {
+                        window.SetText("");
+                    }
+                }
+
+                txtLiveTextPreview.Text = "-";
+
+                e.Handled = true;
             }
         }
         private void lstStrofe_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

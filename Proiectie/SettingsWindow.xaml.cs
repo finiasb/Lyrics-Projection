@@ -17,7 +17,7 @@ namespace Proiectie
             this._projectionWindows = _projectionWindows;
 
 
-            var lista = new[] { "Arial", "Book Antiqua", "Calibri", "Century Gothic", "Consolas", "Courier New", "Franklin Gothic", "Georgia", "Impact", "JetBrains Mono", "Sagoe UI", "Times New Roman", "Arial", "Verdana",  };
+            var lista = new[] { "Arial", "Book Antiqua", "Calibri", "Century Gothic", "Consolas", "Courier New", "Franklin Gothic", "Georgia", "Impact", "JetBrains Mono", "Segoe UI", "Times New Roman", "Arial", "Verdana",  };
 
             var fonturiSigureFiltrate = Fonts.SystemFontFamilies.Where(f => f.Source != null && lista.Any(dorit => f.Source.Equals(dorit, StringComparison.OrdinalIgnoreCase))).OrderBy(f => f.Source).ToList();
 

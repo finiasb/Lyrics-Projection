@@ -28,12 +28,19 @@ namespace Proiectie
             string titluNorm = Functions.NormalizeazaText(titlu);
             string versuriNorm = Functions.NormalizeazaText(versuri);
 
+            try
+            {
                 int noulId = GetNextId();
-
                 InsertSongIntoDatabase(noulId, titlu, versuri, autor, titluNorm, versuriNorm);
+
                 this.DialogResult = true;
                 this.Close();
-            
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"A apărut o eroare la salvarea cântecului: {ex.Message}");
+            }
+
         }
 
         private int GetNextId()
@@ -63,7 +70,7 @@ namespace Proiectie
                 using (var connection = new SQLiteConnection(_connectionString))
                 {
                     connection.Open();
-
+                        
                     string sql = @"INSERT INTO Cantece (id, titlu, versuri, autor, titluNormalizat, versuriNormalizate, url) 
                        VALUES (@id, @titlu, @versuri, @autor, @titluNorm, @versuriNorm, @url)";
 

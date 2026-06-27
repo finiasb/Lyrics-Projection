@@ -80,6 +80,9 @@ namespace Proiectie
                               .Where(s => s.Length > 5)
                               .Where(s => !s.Contains("Text:"))
                               .Where(s => !s.Contains("Compozitor:"))
+                              .Where(s => !s.Contains("Compozitori:"))
+                              .Where(s => !s.Contains("Autor text:"))
+                              .Where(s => !s.Contains("Autor versuri:"))
                               .Where(s => s.Any(char.IsLetter))
                               .Where(s => !Regex.IsMatch(s, @"^\d{4}$"))
                               .ToList();
