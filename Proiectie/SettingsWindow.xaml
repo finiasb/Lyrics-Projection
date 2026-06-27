@@ -33,18 +33,52 @@
 
         <Grid Margin="5,0,5,10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Margin="0,0,10,0">
                 <Label Content="Font:" Foreground="Gray" Padding="0,0,0,5"/>
                 <ComboBox x:Name="cmbFonts" Height="30" DisplayMemberPath="Source"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+            <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                <Label Content="Culoare număr:" Foreground="Gray" Padding="0,0,0,5"/>
+                <Grid>
+                    <TextBox x:Name="txtHexNumber" 
+                             Height="30" 
+                             Background="#333" 
+                             Foreground="White" 
+                             BorderThickness="1" 
+                             BorderBrush="#555" 
+                             VerticalContentAlignment="Center" 
+                             HorizontalContentAlignment="Center"
+                             Padding="5,0"/>
+
+                    <TextBlock Text="#HEX..." 
+                               IsHitTestVisible="False" 
+                               Foreground="#777" 
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center"
+                               FontStyle="Italic">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=txtHexNumber}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Margin="0,0,5,0">
                 <Label Content="Mărime Text:" Foreground="Gray" Padding="0,0,0,5"/>
                 <TextBox x:Name="txtFontSize" 
                          Height="30" 
@@ -57,7 +91,7 @@
                          BorderBrush="#555"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="2" Margin="5,0,0,0">
+            <StackPanel Grid.Column="3" Margin="5,0,0,0">
                 <Label Content="Mărime Ceas:" Foreground="Gray" Padding="0,0,0,5"/>
                 <TextBox x:Name="txtClockFontSize" 
                          Height="30" 
@@ -69,7 +103,8 @@
                          Padding="5,0" 
                          BorderBrush="#555"/>
             </StackPanel>
-            <StackPanel Grid.Column="3" Margin="5,0,0,0">
+
+            <StackPanel Grid.Column="4" Margin="5,0,0,0">
                 <Button Content="Shortcuts" Click="Shortcuts_Click" Height="30" Background="#007ACC" Foreground="White" Margin="5,20,0,0" Cursor="Hand"/>
             </StackPanel>
         </Grid>

@@ -1,6 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Proiectie
@@ -30,7 +32,7 @@ namespace Proiectie
 
         public void SetTextCuStil(string textStrofa, bool esteUltimaStrofa, bool trackerActiv)
         {
-            txtMain.Inlines.Clear(); 
+            txtMain.Inlines.Clear();
 
             if (string.IsNullOrEmpty(textStrofa)) return;
 
@@ -40,8 +42,30 @@ namespace Proiectie
                 string prefix = matchPrefix.Groups[1].Value;
                 string restulTextului = textStrofa.Substring(prefix.Length);
 
+                string savedHex = Properties.Settings.Default.HexNumber;
+
+                System.Windows.Media.Brush customBrush;
+                try
+                {
+                    if (!string.IsNullOrEmpty(savedHex))
+                    {
+                        if (!savedHex.StartsWith("#")) savedHex = "#" + savedHex;
+
+                        System.Windows.Media.Color color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(savedHex);
+                        customBrush = new SolidColorBrush(color);
+                    }
+                    else
+                    {
+                        customBrush = System.Windows.Media.Brushes.Orange; 
+                    }
+                }
+                catch
+                {
+                    customBrush = System.Windows.Media.Brushes.Orange; 
+                }
+
                 Run runPrefix = new Run(prefix);
-                runPrefix.Foreground = System.Windows.Media.Brushes.Orange; 
+                runPrefix.Foreground = customBrush;
 
                 Run runRest = new Run(restulTextului);
                 runRest.Foreground = System.Windows.Media.Brushes.White;

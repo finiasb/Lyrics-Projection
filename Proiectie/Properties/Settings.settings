@@ -26,5 +26,8 @@
     <Setting Name="clockFontSize" Type="System.Double" Scope="User">
       <Value Profile="(Default)">50</Value>
     </Setting>
+    <Setting Name="HexNumber" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FFA500</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

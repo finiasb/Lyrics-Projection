@@ -67,6 +67,7 @@ namespace Proiectie
             Properties.Settings.Default.ShowVerseTracker = chkShowTracker.IsChecked == true;
             Properties.Settings.Default.txtFontSize = customFontSize;
             Properties.Settings.Default.clockFontSize = customClockFontSize;
+            Properties.Settings.Default.HexNumber = txtHexNumber.Text;
             Properties.Settings.Default.Save();
 
             string fontName = Properties.Settings.Default.SelectedFont;

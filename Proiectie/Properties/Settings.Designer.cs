@@ -117,5 +117,17 @@ namespace Proiectie.Properties {
                 this["clockFontSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FFA500")]
+        public string HexNumber {
+            get {
+                return ((string)(this["HexNumber"]));
+            }
+            set {
+                this["HexNumber"] = value;
+            }
+        }
     }
 }
