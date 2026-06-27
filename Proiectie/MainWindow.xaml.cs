@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Data.SQLite;
 using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
 namespace Proiectie
 {
     public partial class MainWindow : Window
@@ -196,6 +197,13 @@ namespace Proiectie
         {
             if (lstCantari.SelectedItem is Song selected)
             {
+                if (lstFavOrIstoric.SelectedIndex != -1)
+                {
+                    lstFavOrIstoric.SelectionChanged -= lstFavorite_SelectionChanged;
+                    lstFavOrIstoric.SelectedIndex = -1;
+                    lstFavOrIstoric.SelectionChanged += lstFavorite_SelectionChanged;
+                }
+
                 Functions.LoadSongDetails(this, selected);
                 lastSongSelected = selected;
             }
@@ -246,7 +254,22 @@ namespace Proiectie
                 {
                     try
                     {
+                        if (lastSongSelected == selectata)
+                            lastSongSelected = null;
+
+                        if (_listaFavorite.Contains(selectata))
+                        {
+                            _listaFavorite.Remove(selectata);
+                        }
+
+                        if (_listaIstoric.Contains(selectata))
+                        {
+                            _listaIstoric.Remove(selectata);
+                        }
+
                         DeleteSongFromDatabase(selectata.Id);
+
+                        
 
                         Functions.LoadSongs(this, txtSearch.Text);
                         
@@ -293,7 +316,17 @@ namespace Proiectie
         private void lstFavorite_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lstFavOrIstoric.SelectedItem is Song selectata)
+            {
+                if (lstCantari.SelectedIndex != -1)
+                {
+                    lstCantari.SelectionChanged -= lstCantari_SelectionChanged;
+                    lstCantari.SelectedIndex = -1;
+                    lstCantari.SelectionChanged += lstCantari_SelectionChanged;
+                }
+
                 Functions.LoadSongDetails(this, selectata);
+                lastSongSelected = selectata;
+            }
         }
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {

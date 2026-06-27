@@ -58,24 +58,31 @@ namespace Proiectie
 
         private void InsertSongIntoDatabase(int id, string titlu, string versuri, string autor, string titluNorm, string versuriNorm)
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            try
             {
-                connection.Open();
+                using (var connection = new SQLiteConnection(_connectionString))
+                {
+                    connection.Open();
 
-                string sql = @"INSERT INTO Cantece (id, titlu, versuri, autor, titluNormalizat, versuriNormalizate, url) 
+                    string sql = @"INSERT INTO Cantece (id, titlu, versuri, autor, titluNormalizat, versuriNormalizate, url) 
                        VALUES (@id, @titlu, @versuri, @autor, @titluNorm, @versuriNorm, @url)";
 
-                using (var command = new SQLiteCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@titlu", titlu);
-                    command.Parameters.AddWithValue("@versuri", versuri);
-                    command.Parameters.AddWithValue("@autor", autor);
-                    command.Parameters.AddWithValue("@titluNorm", titluNorm);
-                    command.Parameters.AddWithValue("@versuriNorm", versuriNorm);
-                    command.Parameters.AddWithValue("@url", "manual_entry_" + id);
-                    command.ExecuteNonQuery();
+                    using (var command = new SQLiteCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@titlu", titlu);
+                        command.Parameters.AddWithValue("@versuri", versuri);
+                        command.Parameters.AddWithValue("@autor", autor);
+                        command.Parameters.AddWithValue("@titluNorm", titluNorm);
+                        command.Parameters.AddWithValue("@versuriNorm", versuriNorm);
+                        command.Parameters.AddWithValue("@url", "manual_entry_" + id);
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch(Exception e) 
+            {
+                System.Windows.Forms.MessageBox.Show(e.Message);
             }
         }
     }
