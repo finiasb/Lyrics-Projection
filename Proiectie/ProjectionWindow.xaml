@@ -12,7 +12,7 @@
 
         <TextBlock x:Name="txtMain" Text="" Foreground="White" FontSize="70" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="40"/>
 
-        <TextBlock x:Name="txtClock" Text="" Foreground="White" FontSize="60" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="20"/>
+        <TextBlock x:Name="txtClock" Text="" Foreground="White" FontSize="60" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="14"/>
 
     </Grid>
 </Window>
