@@ -13,7 +13,7 @@
         d:DesignWidth="1920" 
         Background="#2D2D2D"
         KeyDown="Window_KeyDown"
-        Icon="app_icon.png">
+        Icon="Icons/app_icon.png">
     <Window.Resources>
         <Style TargetType="RadioButton">
             <Setter Property="FontSize" Value="13"/>
@@ -57,10 +57,10 @@
                             <Button Content="🗑️" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="Delete_Click" ToolTip="Șterge"/>
                             <Button Content="+" Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="18" Cursor="Hand" Click="AddSong_Click" ToolTip="Adaugă"/>
                             <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenEditPage_Click" ToolTip="Editează">
-                                <Image Source="edit.png" Width="18" Height="18" Opacity="0.8"/>
+                                <Image Source="Icons/edit.png" Width="18" Height="18" Opacity="0.8"/>
                             </Button>
                             <Button Width="30" Height="30" Background="Transparent" Foreground="White" BorderThickness="0" Cursor="Hand" Click="OpenSettings_Click" ToolTip="Setări">
-                                <Image Source="settings2.png" Width="18" Height="18" Opacity="0.8"/>
+                                <Image Source="Icons/settings2.png" Width="18" Height="18" Opacity="0.8"/>
                             </Button>
                         </StackPanel>
 
